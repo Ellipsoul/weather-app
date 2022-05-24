@@ -10,11 +10,15 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { HomepageComponent } from './components/homepage/homepage.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    HomepageComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
