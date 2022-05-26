@@ -7,8 +7,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
 import { environment } from '../environments/environment';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -29,8 +29,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
   providers: [],
