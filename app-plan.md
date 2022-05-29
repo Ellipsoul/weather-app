@@ -11,13 +11,11 @@
 - Weatherapi: https://www.weatherapi.com/my/
 - Firebase
 
-
 ### Logic and Features
 
 #### Pages
 
 - Homepage - supports realtime weather query
-- Dashboard - for logged in users
 - User profile - for logged in users
 
 ##### Homepage
@@ -31,12 +29,12 @@
   - The day they signed up
   - Number of queries they have made for current and forecast weather
 
-##### Dashboard
+##### Side Nav
 
-- More complex view allowing user to make queries as well as see their previous queries
+- Instead of a separate dashboard page, have a drawer that opens from the side.
+- If the user is not logged in, there will be a prompt to log the user in here, as well as a log out button at the botom here.
 - User can click on a previous query, and a new query will be made. Search bar will also be filled with that query.
 - Navigation can remain at the top, but selecting either realtime or forecast weather should occur in the bottom row, with some animated tab switching when navigating between request types.
-
 
 #### Logic
 
@@ -65,10 +63,9 @@ Units
 
 #### Authentication Model
 
-- Authguard for Dashboard and User Profile will be implemented
-
+- Authguard for User Profile will be implemented
 - If users log in with Google, they can use both weather query features
-- QUERIES will be saved for easy future access, useres can access these from their dashboard
+- QUERIES will be saved for easy future access, useres can access these from the side drawer
 - When clicking on a new query, the app will make a new API request for fresh data
 - Consider storing the stale weather data, in case the servers are down, and return that data
 - Include some note about being on the free plan if API call fails because of only 95.5% uptime for free users.
