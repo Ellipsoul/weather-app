@@ -11,14 +11,14 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { HomepageComponent } from './components/homepage/homepage.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     HomepageComponent,
-    DashboardComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
