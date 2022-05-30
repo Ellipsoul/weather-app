@@ -1,0 +1,9 @@
+@import-normalize;
+@tailwind base;
+@tailwind components;
+
+@layer components {
+  :host {
+    @apply bg-gray-300 grow;
+  }
+}

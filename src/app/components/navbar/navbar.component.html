@@ -1,3 +1,31 @@
-<header ngClass="bg-slate-100 dark:bg-slate-900">
-  <button (click)="toggleTheme()">Toggle Theme</button>
+<header
+  ngClass="
+  flex flex-row h-20 justify-between align-middle px-8
+  bg-slate-100 dark:bg-slate-900"
+>
+  <!-- Title and slogan -->
+  <div
+    ngClass="
+    flex flex-row justify-start items-center py-4 gap-x-3
+    font-semibold text-gray-900 dark:text-gray-100
+    "
+  >
+    <span ngClass="text-5xl font-title">WeatherApp</span>
+    <span ngClass="text-sm self-end font-slogan">A great PWA</span>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div
+    ngClass="
+    flex flex-row justify-end items-center py-4 gap-x-3
+    font-semibold text-gray-900 dark:text-gray-100
+    "
+  >
+    <button mat-raised-button color="primary">Primary</button>
+    <button mat-raised-button color="primary">Primary</button>
+  </div>
+
+  <!-- Links to Github and Personal Website -->
+
+  <!-- <button (click)="toggleTheme()">Toggle Theme</button> -->
 </header>

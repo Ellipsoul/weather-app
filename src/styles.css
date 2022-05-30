@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Ensure that the app will expand to fill the viewport */
+@layer components {
+  html,
+  body {
+    @apply h-full w-full;
+  }
+
+  body {
+    @apply m-0;
+  }
+}
