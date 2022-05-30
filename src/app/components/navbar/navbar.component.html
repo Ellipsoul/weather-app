@@ -19,15 +19,48 @@
   <!-- Navigation Buttons -->
   <div
     ngClass="
-    flex flex-row justify-end items-center py-4 gap-x-3
-    font-semibold text-gray-900 dark:text-gray-100
-    "
+    flex flex-row justify-center items-center py-4 gap-x-3
+    font-semibold text-black dark:text-white"
   >
-    <button mat-raised-button color="warn">LinkedIn</button>
-    <button mat-raised-button color="primary">GitHub</button>
+    <button mat-raised-button color="primary">App</button>
+    <button
+      mat-raised-button
+      [color]="currentTheme === 'light' ? 'basic' : 'warn'"
+    >
+      Profile
+    </button>
   </div>
 
   <!-- Links to Github and Personal Website -->
+  <div
+    ngClass="
+    flex flex-row gap-x-8"
+  >
+    <button
+      mat-raised-button
+      color="primary"
+      href="https://www.linkedin.com/in/aronteh/"
+      target="_blank"
+    >
+      <img src="../../../assets/linkedin-icon.png" width="50px" />
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      href="https://github.com/ellipsoul"
+      target="_blank"
+    >
+      <img
+        [src]="
+          currentTheme === 'dark'
+            ? '../../../assets/github-light.png'
+            : '../../../assets/github-dark.png'
+        "
+        width="50px"
+      />
+    </button>
+  </div>
 
   <!-- <button (click)="toggleTheme()">Toggle Theme</button> -->
 </header>
