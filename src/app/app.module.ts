@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { AppRoutingModule } from './routing/app-routing.module';
+import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -24,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
     ProfileComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     MatButtonModule,
