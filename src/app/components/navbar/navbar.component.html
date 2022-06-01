@@ -1,33 +1,45 @@
 <header
   ngClass="
-  flex flex-row h-16 md:h-20 justify-between align-middle px-8
-  bg-slate-100 dark:bg-slate-900"
+  flex flex-row h-18 md:h-22 justify-between align-middle px-8
+  bg-slate-100 dark:bg-slate-800"
 >
   <!-- Title and slogan -->
   <div
     ngClass="
     flex flex-row justify-start items-center py-4 gap-x-3
-    font-semibold text-gray-900 dark:text-gray-100
+    font-semibold text-black dark:text-white
     "
   >
     <span ngClass="text-4xl md:text-5xl font-title">WeatherApp</span>
-    <span ngClass="text-sm self-end font-slogan hidden md:block"
-      >A great PWA</span
-    >
+    <span ngClass="text-sm self-end font-slogan hidden md:block">
+      A great PWA
+    </span>
   </div>
 
   <!-- Navigation Buttons -->
   <div
     ngClass="
     flex flex-row justify-center items-center py-4 gap-x-3
-    font-semibold text-black dark:text-white"
+    text-black dark:text-white font-serif"
   >
-    <button mat-raised-button color="primary">App</button>
     <button
-      mat-raised-button
-      [color]="currentTheme === 'light' ? 'basic' : 'warn'"
+      mat-stroked-button
+      ngClass="flex flex-col px-6 py-2
+      bg-zinc-200 dark:bg-zinc-800"
+      color="basic"
     >
-      Profile
+      <mat-icon>cloud_queue</mat-icon>
+      <div>App</div>
+    </button>
+
+    <button
+      mat-stroked-button
+      ngClass="flex flex-col px-4 py-2
+      bg-zinc-200 dark:bg-zinc-800"
+      color="basic"
+    >
+      <mat-icon>person</mat-icon>
+      <div>Profile</div>
     </button>
   </div>
 
@@ -62,5 +74,5 @@
     </button>
   </div>
 
-  <!-- <button (click)="toggleTheme()">Toggle Theme</button> -->
+  <button (click)="toggleTheme()">Toggle Theme</button>
 </header>
