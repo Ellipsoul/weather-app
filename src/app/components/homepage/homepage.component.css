@@ -5,6 +5,6 @@
 @layer components {
   /* Background colour for home page */
   :host {
-    @apply bg-amber-50 grow;
+    @apply bg-yellow-100 flex flex-row grow;
   }
 }

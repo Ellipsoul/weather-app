@@ -1,1 +1,19 @@
-<p>homepage works!</p>
+<!-- Entire component will reside within a drawer container -->
+<mat-drawer-container class="grow bg-transparent" [hasBackdrop]="false">
+  <!-- Content within drawer -->
+  <mat-drawer #drawer mode="push" ngClass="w-96">I'm a drawer</mat-drawer>
+  <!-- Container with Drawer Toggle Button and Main Page -->
+  <mat-drawer-content ngClass="flex flex-row bg-transparent">
+    <!-- Drawer Content -->
+    <aside ngClass="flex flex-col">
+      <div ngClass="grow invisible">Hi</div>
+      <button mat-icon-button (click)="drawer.toggle()" ngClass="text-black">
+        <mat-icon>arrow_right</mat-icon>
+      </button>
+      <div ngClass="grow invisible">Hi</div>
+    </aside>
+
+    <!-- Main Page Content -->
+    <div ngClass="grow bg-yellow-200">Hi</div>
+  </mat-drawer-content>
+</mat-drawer-container>
