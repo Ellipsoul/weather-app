@@ -1,20 +1,37 @@
 <!-- Entire component will reside within a drawer container -->
-<mat-drawer-container class="grow bg-transparent" [hasBackdrop]="false">
+<mat-drawer-container
+  class="grow bg-blue-200 dark:bg-blue-800"
+  [hasBackdrop]="false"
+>
   <!-- Content within drawer -->
-  <mat-drawer #drawer mode="push" ngClass="w-96">I'm a drawer</mat-drawer>
+  <mat-drawer
+    #drawer
+    mode="push"
+    [opened]="true"
+    ngClass="w-96 flex flex-col px-4 py-4 gap-y-3"
+  >
+    <button mat-raised-button>Hi</button>
+  </mat-drawer>
+
   <!-- Container with Drawer Toggle Button and Main Page -->
   <mat-drawer-content ngClass="flex flex-row bg-transparent">
     <!-- Drawer Content -->
     <aside ngClass="flex flex-col">
-      <div ngClass="grow invisible">Hi</div>
-      <button mat-icon-button (click)="drawer.toggle()" ngClass="text-black">
-        <mat-icon>arrow_right</mat-icon>
+      <div ngClass="grow invisible"></div>
+      <button
+        mat-icon-button
+        (click)="drawer.toggle()"
+        ngClass="text-black dark:text-white rounded-full"
+      >
+        <mat-icon ngClass="text-5xl absolute bottom-5 right-5">
+          {{ drawer.opened ? 'chevron_left' : 'chevron_right' }}
+        </mat-icon>
       </button>
-      <div ngClass="grow invisible">Hi</div>
+      <div ngClass="grow-4/3 invisible"></div>
     </aside>
 
     <!-- Main Page Content -->
-    <div ngClass="grow bg-yellow-200 text-black">
+    <div ngClass="text-black grow bg-blue-200 dark:bg-blue-800">
       <button (click)="toggleTheme()">Toggle Theme</button>
     </div>
   </mat-drawer-content>

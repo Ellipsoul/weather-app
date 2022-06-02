@@ -24,6 +24,10 @@ module.exports = {
       screens: {
         mobile: '425px',
       },
+      flexGrow: {
+        '4/3': 4 / 3,
+        2: 2,
+      },
     },
   },
   variants: {},
