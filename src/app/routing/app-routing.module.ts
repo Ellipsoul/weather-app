@@ -5,8 +5,8 @@ import { ProfileComponent } from '../components/profile/profile.component';
 import { HomepageComponent } from '../components/homepage/homepage.component';
 
 const routes: Routes = [
-  { path: 'app', component: HomepageComponent, data: { title: 'WeatherApp - Home' } },
-  { path: 'profile', component: ProfileComponent, data: { title: 'WeatherApp - Profile' } },
+  { path: 'app', component: HomepageComponent, data: { title: 'SkyStory - App' } },
+  { path: 'profile', component: ProfileComponent, data: { title: 'SkyStory - Profile' } },
   { path: '**', redirectTo: '/app'},
 ];
 

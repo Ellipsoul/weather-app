@@ -1,8 +1,8 @@
 <header
-  ngClass="
-  flex flex-row justify-between align-middle
-  h-16 md:h-22 lg:h-24 px-6 lg:px-8
-  bg-slate-100 dark:bg-slate-800"
+  [ngClass]="[
+    'flex flex-row justify-between align-middle h-16 md:h-22 lg:h-24 px-6 lg:px-8 bg-slate-100 dark:bg-slate-800',
+    currentTheme
+  ]"
 >
   <!-- Title and slogan -->
   <div
@@ -135,6 +135,4 @@
       >
     </button>
   </mat-menu>
-
-  <!-- <button (click)="toggleTheme()">Toggle Theme</button> -->
 </header>

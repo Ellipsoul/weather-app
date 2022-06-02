@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 
 // Service provides theming functionality
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
+  @Output() themeEvent = new EventEmitter<string>();
+
   constructor() {
   }
 
@@ -17,13 +19,12 @@ export class ThemeService {
   getTheme(): string {
     const theme = localStorage.getItem('theme');
     if (theme !== null) return theme;
-
     this.setTheme('light');
     return 'light';
   }
 
   toggleTheme(): void {
-    this.getTheme() === 'light' ?
-      this.setTheme('dark') : this.setTheme('light');
+    this.getTheme() === 'light' ? this.setTheme('dark') : this.setTheme('light');
+    this.themeEvent.emit(this.getTheme());
   }
 }

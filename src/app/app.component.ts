@@ -11,15 +11,15 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'weather-app';
-  public theme: string;
+  title = 'SkyStory';
+  public currentTheme: string;
 
   constructor(
     private themeService: ThemeService,
     private titleService: Title,
     private route: ActivatedRoute,
     private router: Router) {
-    this.theme = this.themeService.getTheme();
+    this.currentTheme = this.themeService.getTheme();
   }
 
   ngOnInit(): void {
@@ -41,11 +41,7 @@ export class AppComponent implements OnInit {
         ).subscribe((ttl: string) => {
           this.titleService.setTitle(ttl);
         });
-  }
-
-
-  // Event handler that gets called when the theme changes
-  themeEventHandler($event: any) {
-    this.theme = $event;
+    // Subscribe to the current theme from the theme service
+    this.themeService.themeEvent.subscribe((theme: string) => this.currentTheme = theme);
   }
 }

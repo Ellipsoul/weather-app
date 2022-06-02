@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ThemeService } from '../../services/theme.service';
+import { Component, OnInit } from '@angular/core';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,24 +7,14 @@ import { ThemeService } from '../../services/theme.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  // Passes theme to parent component
-  @Output() themeEvent = new EventEmitter<string>();
   currentTheme: string;
 
-  constructor(
-    private themeService: ThemeService,
-  ) {
+  constructor(private themeService: ThemeService) {
     this.currentTheme = this.themeService.getTheme();
   }
 
-  ngOnInit(): void {
-  }
-
-  // Toggles the theme and informs parent component
-  toggleTheme():void {
-    this.themeService.toggleTheme();
-    this.currentTheme = this.themeService.getTheme();
-    this.themeEvent.emit(this.currentTheme);
+  ngOnInit() {
+    this.themeService.themeEvent.subscribe((theme: string) => this.currentTheme = theme);
   }
 
   // Runs when user attempts to access their profile page

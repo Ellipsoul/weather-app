@@ -1,9 +1,9 @@
 <main
   [ngClass]="[
-    theme,
+    currentTheme,
     'w-full my-0 mx-auto flex flex-col min-h-screen justify-start'
   ]"
 >
-  <app-navbar (themeEvent)="themeEventHandler($event)"></app-navbar>
+  <app-navbar></app-navbar>
   <router-outlet></router-outlet>
 </main>
