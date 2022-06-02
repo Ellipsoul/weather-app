@@ -26,4 +26,12 @@ export class NavbarComponent implements OnInit {
     this.currentTheme = this.themeService.getTheme();
     this.themeEvent.emit(this.currentTheme);
   }
+
+  // Runs when user attempts to access their profile page
+  async checkAuthentication():Promise<void> {
+    // const user = await this.afAuth.currentUser;
+    // if (user === null) {
+    //   this.toaster.error('You must be logged in to view your notes', 'Oops!');
+    // }
+  }
 }

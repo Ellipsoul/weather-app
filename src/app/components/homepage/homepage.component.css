@@ -4,6 +4,6 @@
 
 @layer components {
   :host {
-    @apply bg-gray-300 grow;
+    @apply bg-amber-50 grow;
   }
 }

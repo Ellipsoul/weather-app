@@ -22,38 +22,42 @@
   <!-- Navigation Buttons -->
   <div
     ngClass="
-    flex flex-row justify-center items-center py-4 gap-x-3 lg:gap-x-6
+    hidden sm:flex flex-row justify-center items-center py-4 gap-x-3 lg:gap-x-6
     text-black dark:text-white font-serif"
   >
+    <!-- Home and App Page -->
     <button
       mat-stroked-button
       ngClass="flex flex-col lg:px-10 md:px-6 md:py-2 px-4 py-1
       bg-zinc-200 dark:bg-zinc-800"
+      routerLink="/home"
       color="basic"
     >
       <mat-icon ngClass="text-2xl lg:text-4xl" [inline]="true">
         cloud_queue
       </mat-icon>
-      <div ngClass="text-sm lg:text-lg">App</div>
+      <div ngClass="text-sm lg:text-lg font-bold">App</div>
     </button>
-
+    <!-- User Profile Page, if logged in -->
     <button
       mat-stroked-button
       ngClass="flex flex-col lg:px-8 md:px-4 md:py-2 px-2 py-1
       bg-zinc-200 dark:bg-zinc-800"
+      routerLink="/profile"
       color="basic"
     >
       <mat-icon ngClass="text-2xl lg:text-4xl" [inline]="true">person</mat-icon>
-      <div ngClass="text-sm lg:text-lg">Profile</div>
+      <div ngClass="text-sm lg:text-lg font-bold">Profile</div>
     </button>
   </div>
 
-  <!-- Links to Github and Personal Website -->
+  <!-- Links to Github and LinkedIn -->
   <div
     ngClass="
-    flex flex-row justify-center items-center py-4 gap-x-3 md:gap-x-5 lg:gap-x-7
+    hidden sm:flex flex-row justify-center items-center py-4 gap-x-3 md:gap-x-5 lg:gap-x-7
   text-black dark:text-white font-serif"
   >
+    <!-- LinkedIn -->
     <a
       href="https://www.linkedin.com/in/aronteh/"
       target="_blank"
@@ -68,7 +72,7 @@
         "
       />
     </a>
-
+    <!-- GitHub, Direct to Project -->
     <a
       href="https://github.com/Ellipsoul/weather-app/"
       target="_blank"
@@ -84,6 +88,49 @@
       />
     </a>
   </div>
+
+  <!-- Menu Access for Mobile Users -->
+  <button
+    mat-icon-button
+    ngClass="text-black dark:text-white sm:hidden self-center"
+    [matMenuTriggerFor]="menu"
+    #matMenuTrigger="matMenuTrigger"
+    (window:resize)="matMenuTrigger.closeMenu()"
+  >
+    <mat-icon [inline]="true" ngClass="text-4xl">menu</mat-icon>
+  </button>
+  <!-- Menu Buttons -->
+  <mat-menu #menu="matMenu" class="matmenu font-title">
+    <!-- Navigation Buttons -->
+    <button mat-menu-item routerLink="/home" ngClass="mat-menu-button">
+      Home
+    </button>
+    <button
+      mat-menu-item
+      routerLink="/profile"
+      ngClass="mat-menu-button"
+      (click)="checkAuthentication()"
+    >
+      Profile
+    </button>
+    <!-- GitHub and LinkedIn -->
+    <button mat-menu-item ngClass="mat-menu-button">
+      <a
+        href="https://www.linkedin.com/in/aronteh/"
+        target="_blank"
+        rel="noopener noreferrer"
+        >LinkedIn</a
+      >
+    </button>
+    <button mat-menu-item ngClass="mat-menu-button">
+      <a
+        href="https://github.com/Ellipsoul/weather-app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        >GitHub</a
+      >
+    </button>
+  </mat-menu>
 
   <!-- <button (click)="toggleTheme()">Toggle Theme</button> -->
 </header>
