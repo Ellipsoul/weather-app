@@ -3,6 +3,7 @@
 @tailwind components;
 
 @layer components {
+  /* Background colour for home page */
   :host {
     @apply bg-amber-50 grow;
   }

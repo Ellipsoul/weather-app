@@ -1,34 +1,36 @@
 <header
   ngClass="
   flex flex-row justify-between align-middle
-  h-18 md:h-22 lg:h-26 px-4 md:px-6 lg:px-8
+  h-16 md:h-22 lg:h-24 px-6 lg:px-8
   bg-slate-100 dark:bg-slate-800"
 >
   <!-- Title and slogan -->
   <div
     ngClass="
-    flex flex-row justify-start items-center py-4 gap-x-3
+    flex flex-row justify-start items-center py-4 gap-x-1 sm:gap-x-3
     font-semibold text-black dark:text-white
     "
   >
-    <span ngClass="text-4xl md:text-5xl lg:text-6xl font-title"
-      >WeatherApp</span
+    <span ngClass="text-3xl md:text-4xl lg:text-6xl font-title tracking-wide">
+      SkyStory
+    </span>
+    <span
+      ngClass="md:pb-1 md:text-sm text-xs self-end font-slogan hidden mobile:block"
     >
-    <span ngClass="text-sm self-end font-slogan hidden md:block">
-      A great PWA
+      Weather forecast: free, easy
     </span>
   </div>
 
   <!-- Navigation Buttons -->
   <div
     ngClass="
-    hidden sm:flex flex-row justify-center items-center py-4 gap-x-3 lg:gap-x-6
+    hidden sm:flex flex-row justify-center items-center py-4 gap-x-1 md:gap-x-2 lg:gap-x-6
     text-black dark:text-white font-serif"
   >
     <!-- Home and App Page -->
     <button
       mat-stroked-button
-      ngClass="flex flex-col lg:px-10 md:px-6 md:py-2 px-4 py-1
+      ngClass="flex flex-col lg:px-10 md:px-6 py-1 md:py-2 px-4
       bg-zinc-200 dark:bg-zinc-800"
       routerLink="/home"
       color="basic"
@@ -36,25 +38,25 @@
       <mat-icon ngClass="text-2xl lg:text-4xl" [inline]="true">
         cloud_queue
       </mat-icon>
-      <div ngClass="text-sm lg:text-lg font-bold">App</div>
+      <div ngClass="nav-button-text">App</div>
     </button>
     <!-- User Profile Page, if logged in -->
     <button
       mat-stroked-button
-      ngClass="flex flex-col lg:px-8 md:px-4 md:py-2 px-2 py-1
+      ngClass="flex flex-col lg:px-8 md:px-4 py-1 md:py-2 px-2
       bg-zinc-200 dark:bg-zinc-800"
       routerLink="/profile"
       color="basic"
     >
       <mat-icon ngClass="text-2xl lg:text-4xl" [inline]="true">person</mat-icon>
-      <div ngClass="text-sm lg:text-lg font-bold">Profile</div>
+      <div ngClass="nav-button-text">Profile</div>
     </button>
   </div>
 
   <!-- Links to Github and LinkedIn -->
   <div
     ngClass="
-    hidden sm:flex flex-row justify-center items-center py-4 gap-x-3 md:gap-x-5 lg:gap-x-7
+    hidden sm:flex flex-row justify-center items-center py-4 gap-x-1 md:gap-x-4 lg:gap-x-6
   text-black dark:text-white font-serif"
   >
     <!-- LinkedIn -->
@@ -64,7 +66,7 @@
       rel="noreferrer noopener"
     >
       <img
-        ngClass="w-12 md:w-14 lg:w-16"
+        ngClass="linkedin-link"
         [src]="
           currentTheme === 'dark'
             ? './../../assets/linkedin-white.png'
@@ -79,7 +81,7 @@
       rel="noreferrer noopener"
     >
       <img
-        ngClass="w-12 md:w-14 lg:w-16"
+        ngClass="github-link"
         [src]="
           currentTheme === 'dark'
             ? './../../assets/github-light.png'

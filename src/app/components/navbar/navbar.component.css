@@ -3,11 +3,26 @@
 @tailwind components;
 
 @layer components {
+  /* Custom background for menu, was defaulted to dark theme */
   ::ng-deep .matmenu {
     @apply bg-white;
   }
 
+  /* Spacing for navigation text */
+  .nav-button-text {
+    @apply text-sm lg:text-lg font-bold;
+  }
+
+  /* Spacing for menu buttons */
   .mat-menu-button {
     @apply pl-5 py-1;
+  }
+
+  .linkedin-link {
+    @apply w-13 md:w-15 lg:w-17;
+  }
+
+  .github-link {
+    @apply w-12 md:w-14 lg:w-16;
   }
 }
