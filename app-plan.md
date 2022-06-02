@@ -55,6 +55,10 @@ Units
   - mph and kph
   - Maybe some others related to pressure
 
+Online
+- PWA will only work when the app is online.
+- Navigation.online observable to warn users if they are offline.
+
 #### Supported Weather Queries
 
 - Support current weather (detailed view) and future 7-day forecast weather (less detail for 7 dats)

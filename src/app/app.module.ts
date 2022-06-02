@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatIconModule,
     MatMenuModule,
     BrowserAnimationsModule,
+    MatTooltipModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable

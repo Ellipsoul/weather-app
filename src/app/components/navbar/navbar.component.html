@@ -32,7 +32,7 @@
       mat-stroked-button
       ngClass="flex flex-col lg:px-10 md:px-6 py-1 md:py-2 px-4
       bg-zinc-200 dark:bg-zinc-800"
-      routerLink="/home"
+      routerLink="/app"
       color="basic"
     >
       <mat-icon ngClass="text-2xl lg:text-4xl" [inline]="true">
@@ -64,6 +64,7 @@
       href="https://www.linkedin.com/in/aronteh/"
       target="_blank"
       rel="noreferrer noopener"
+      matTooltip="Creator LinkedIn"
     >
       <img
         ngClass="linkedin-link"
@@ -79,6 +80,7 @@
       href="https://github.com/Ellipsoul/weather-app/"
       target="_blank"
       rel="noreferrer noopener"
+      matTooltip="Project GitHub"
     >
       <img
         ngClass="github-link"
@@ -104,7 +106,7 @@
   <!-- Menu Buttons -->
   <mat-menu #menu="matMenu" class="matmenu font-title">
     <!-- Navigation Buttons -->
-    <button mat-menu-item routerLink="/home" ngClass="mat-menu-button">
+    <button mat-menu-item routerLink="/app" ngClass="mat-menu-button">
       Home
     </button>
     <button
