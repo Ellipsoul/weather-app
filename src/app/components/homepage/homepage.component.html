@@ -10,7 +10,11 @@
     [opened]="true"
     ngClass="w-96 flex flex-col px-4 py-4 gap-y-3"
   >
-    <button mat-raised-button>Hi</button>
+    <button mat-raised-button (pointerdown)="googleSignIn()">
+      Google Sign In
+    </button>
+    <button mat-raised-button (pointerdown)="signOut()">Sign Out</button>
+    {{ getCurrentUser() }}
   </mat-drawer>
 
   <!-- Container with Drawer Toggle Button and Main Page -->
