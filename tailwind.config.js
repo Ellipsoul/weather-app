@@ -17,6 +17,11 @@ module.exports = {
       screens: {
         mobile: '425px',
       },
+      spacing: {
+        18: '4.5rem',
+        22: '5.5rem',
+        26: '6.5rem',
+      },
     },
   },
   variants: {},

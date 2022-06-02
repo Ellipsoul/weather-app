@@ -1,6 +1,7 @@
 <header
   ngClass="
-  flex flex-row h-18 md:h-22 justify-between align-middle px-8
+  flex flex-row justify-between align-middle
+  h-18 md:h-22 lg:h-26 px-4 md:px-6 lg:px-8
   bg-slate-100 dark:bg-slate-800"
 >
   <!-- Title and slogan -->
@@ -10,7 +11,9 @@
     font-semibold text-black dark:text-white
     "
   >
-    <span ngClass="text-4xl md:text-5xl font-title">WeatherApp</span>
+    <span ngClass="text-4xl md:text-5xl lg:text-6xl font-title"
+      >WeatherApp</span
+    >
     <span ngClass="text-sm self-end font-slogan hidden md:block">
       A great PWA
     </span>
@@ -19,60 +22,68 @@
   <!-- Navigation Buttons -->
   <div
     ngClass="
-    flex flex-row justify-center items-center py-4 gap-x-3
+    flex flex-row justify-center items-center py-4 gap-x-3 lg:gap-x-6
     text-black dark:text-white font-serif"
   >
     <button
       mat-stroked-button
-      ngClass="flex flex-col px-6 py-2
+      ngClass="flex flex-col lg:px-10 md:px-6 md:py-2 px-4 py-1
       bg-zinc-200 dark:bg-zinc-800"
       color="basic"
     >
-      <mat-icon>cloud_queue</mat-icon>
-      <div>App</div>
+      <mat-icon ngClass="text-2xl lg:text-4xl" [inline]="true">
+        cloud_queue
+      </mat-icon>
+      <div ngClass="text-sm lg:text-lg">App</div>
     </button>
 
     <button
       mat-stroked-button
-      ngClass="flex flex-col px-4 py-2
+      ngClass="flex flex-col lg:px-8 md:px-4 md:py-2 px-2 py-1
       bg-zinc-200 dark:bg-zinc-800"
       color="basic"
     >
-      <mat-icon>person</mat-icon>
-      <div>Profile</div>
+      <mat-icon ngClass="text-2xl lg:text-4xl" [inline]="true">person</mat-icon>
+      <div ngClass="text-sm lg:text-lg">Profile</div>
     </button>
   </div>
 
   <!-- Links to Github and Personal Website -->
   <div
     ngClass="
-    flex flex-row gap-x-8"
+    flex flex-row justify-center items-center py-4 gap-x-3 md:gap-x-5 lg:gap-x-7
+  text-black dark:text-white font-serif"
   >
-    <button
-      mat-raised-button
-      color="primary"
+    <a
       href="https://www.linkedin.com/in/aronteh/"
       target="_blank"
-    >
-      <img src="../../../assets/linkedin-icon.png" width="50px" />
-    </button>
-
-    <button
-      mat-raised-button
-      color="primary"
-      href="https://github.com/ellipsoul"
-      target="_blank"
+      rel="noreferrer noopener"
     >
       <img
+        ngClass="w-12 md:w-14 lg:w-16"
         [src]="
           currentTheme === 'dark'
-            ? '../../../assets/github-light.png'
-            : '../../../assets/github-dark.png'
+            ? './../../assets/linkedin-white.png'
+            : './../../assets/linkedin-normal.png'
         "
-        width="50px"
       />
-    </button>
+    </a>
+
+    <a
+      href="https://github.com/Ellipsoul/weather-app/"
+      target="_blank"
+      rel="noreferrer noopener"
+    >
+      <img
+        ngClass="w-12 md:w-14 lg:w-16"
+        [src]="
+          currentTheme === 'dark'
+            ? './../../assets/github-light.png'
+            : './../../assets/github-dark.png'
+        "
+      />
+    </a>
   </div>
 
-  <button (click)="toggleTheme()">Toggle Theme</button>
+  <!-- <button (click)="toggleTheme()">Toggle Theme</button> -->
 </header>
