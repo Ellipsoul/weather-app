@@ -14,10 +14,12 @@ export class HomepageComponent implements OnInit, OnDestroy {
   constructor(
     private themeService: ThemeService,
   ) {
+    // Retrieve initial theme value from theme service
     this.currentTheme = this.themeService.getTheme();
   }
 
   ngOnInit(): void {
+    // Subscribe to the current theme from the theme service
     this.themeService.themeEvent.subscribe((theme: string) => this.currentTheme = theme);
   }
 
@@ -28,6 +30,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     this.themeService.toggleTheme();
   }
 
+  // Unsubscribe from the theme service when the component is destroyed
   ngOnDestroy(): void {
     this.themeService.themeEvent.unsubscribe();
   }

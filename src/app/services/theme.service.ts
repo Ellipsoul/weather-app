@@ -5,17 +5,17 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
   providedIn: 'root',
 })
 export class ThemeService {
+  // Initialize theme event emitter
   @Output() themeEvent = new EventEmitter<string>();
 
-  constructor() {
-  }
+  constructor() {}
 
   // Managing theme in local storage
   private setTheme(theme: string): void {
     localStorage.setItem('theme', theme);
   }
 
-  // Retrieve theme, or default to light
+  // Retrieve theme, or default to light if not found in local storage
   getTheme(): string {
     const theme = localStorage.getItem('theme');
     if (theme !== null) return theme;
@@ -23,6 +23,7 @@ export class ThemeService {
     return 'light';
   }
 
+  // Toggle the theme, also emits the theme event to subscribed components
   toggleTheme(): void {
     this.getTheme() === 'light' ? this.setTheme('dark') : this.setTheme('light');
     this.themeEvent.emit(this.getTheme());

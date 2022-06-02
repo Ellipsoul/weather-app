@@ -19,6 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private route: ActivatedRoute,
     private router: Router) {
+    // Retrieve initial theme value from theme service
     this.currentTheme = this.themeService.getTheme();
   }
 
@@ -45,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.themeService.themeEvent.subscribe((theme: string) => this.currentTheme = theme);
   }
 
+  // Unsubscribe from the theme service when the component is destroyed
   ngOnDestroy(): void {
     this.themeService.themeEvent.unsubscribe();
   }

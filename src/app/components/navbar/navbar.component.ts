@@ -10,10 +10,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   currentTheme: string;
 
   constructor(private themeService: ThemeService) {
+    // Retrieve initial theme value from theme service
     this.currentTheme = this.themeService.getTheme();
   }
 
   ngOnInit() {
+    // Subscribe to the current theme from the theme service
     this.themeService.themeEvent.subscribe((theme: string) => this.currentTheme = theme);
   }
 
@@ -25,6 +27,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // }
   }
 
+  // Unsubscribe from the theme service when the component is destroyed
   ngOnDestroy(): void {
     this.themeService.themeEvent.unsubscribe();
   }
