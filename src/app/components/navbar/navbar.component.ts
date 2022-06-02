@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { ThemeService } from 'src/app/services/theme.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   currentTheme: string;
 
   constructor(private themeService: ThemeService) {
@@ -23,5 +23,9 @@ export class NavbarComponent implements OnInit {
     // if (user === null) {
     //   this.toaster.error('You must be logged in to view your notes', 'Oops!');
     // }
+  }
+
+  ngOnDestroy(): void {
+    this.themeService.themeEvent.unsubscribe();
   }
 }

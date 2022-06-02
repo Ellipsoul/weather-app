@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { ThemeService } from './services/theme.service';
 import { filter, map } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'SkyStory';
   public currentTheme: string;
 
@@ -43,5 +43,9 @@ export class AppComponent implements OnInit {
         });
     // Subscribe to the current theme from the theme service
     this.themeService.themeEvent.subscribe((theme: string) => this.currentTheme = theme);
+  }
+
+  ngOnDestroy(): void {
+    this.themeService.themeEvent.unsubscribe();
   }
 }

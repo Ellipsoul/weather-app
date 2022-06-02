@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { ThemeService } from '../../services/theme.service';
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css'],
 })
-export class HomepageComponent implements OnInit {
+export class HomepageComponent implements OnInit, OnDestroy {
   // Passes theme to parent component
   @Output() themeEvent = new EventEmitter<string>();
   currentTheme: string;
@@ -26,5 +26,9 @@ export class HomepageComponent implements OnInit {
   // Toggles the theme and informs parent component
   toggleTheme():void {
     this.themeService.toggleTheme();
+  }
+
+  ngOnDestroy(): void {
+    this.themeService.themeEvent.unsubscribe();
   }
 }
