@@ -21,6 +21,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     BrowserAnimationsModule,
     MatTooltipModule,
     MatSidenavModule,
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      positionClass: 'toast-bottom-left',
+      progressBar: true,
+      progressAnimation: 'increasing',
+      maxOpened: 3,
+      autoDismiss: true,
+      closeButton: true,
+    }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable

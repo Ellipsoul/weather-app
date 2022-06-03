@@ -4,6 +4,7 @@ import { getFirestore, Firestore } from '@angular/fire/firestore';
 import { UserCredential, User } from '@angular/fire/auth';
 import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 import { AdditionalUserInfo, getAdditionalUserInfo } from '@firebase/auth';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Subscription } from 'rxjs';
@@ -38,6 +39,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     private themeService: ThemeService,
     private authService: AuthService,
     private deviceService: DeviceDetectorService,
+    private toaster: ToastrService,
   ) {
     // Retrieve initial theme value from theme service
     this.currentTheme = this.themeService.getTheme();
@@ -71,21 +73,35 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Calls auth service to sign in with Google
   async googleSignIn(): Promise<void> {
-    this.authService.signInWithGoogle().subscribe((userCredential: UserCredential) => {
-      // TODO: Additional documents need to be set when a user first signs in successfully
-      const additionaluserInfo: AdditionalUserInfo | null = getAdditionalUserInfo(userCredential);
-      if (additionaluserInfo?.isNewUser) {
-        console.log('new user');
-      }
+    this.authService.signInWithGoogle().subscribe({
+      next: (userCredential: UserCredential) => {
+        // Handle new user creation
+        const additionaluserInfo: AdditionalUserInfo | null = getAdditionalUserInfo(userCredential);
+        if (additionaluserInfo?.isNewUser) {
+          console.log('new user');
+        }
+        // Google authentication successful
+        this.toaster.success('Signed in with Google', 'Success!');
+      },
+      error: (error: Error) => {
+        this.toaster.error('Failed to Sign In', 'Error!');
+        console.log(error);
+      },
     });
   }
 
+  // Signs user out of Firebase
   signOut(): void {
-    this.authService.signOut().subscribe(() => {
-      console.log('signed out');
+    this.authService.signOut().subscribe({
+      next: () => {
+        this.toaster.success('Signed Out', 'Success!');
+      },
+      error: (error: Error) => {
+        this.toaster.error('Failed to Sign Out', 'Error!');
+        console.log(error);
+      },
     });
   }
-
 
   // Unsubscribe from the theme service when the component is destroyed
   ngOnDestroy(): void {

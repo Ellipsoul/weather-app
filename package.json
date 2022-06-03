@@ -1,6 +1,6 @@
 {
   "name": "weather-app",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -26,6 +26,7 @@
     "@angular/router": "~13.3.0",
     "@angular/service-worker": "~13.3.0",
     "ngx-device-detector": "^3.0.0",
+    "ngx-toastr": "^14.3.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
