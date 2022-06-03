@@ -4,6 +4,7 @@ import { getFirestore, Firestore } from '@angular/fire/firestore';
 import { UserCredential, User } from '@angular/fire/auth';
 import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { ToastrService } from 'ngx-toastr';
 import { AdditionalUserInfo, getAdditionalUserInfo } from '@firebase/auth';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -38,6 +39,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private themeService: ThemeService,
     private authService: AuthService,
+    private firestoreService: FirestoreService,
     private deviceService: DeviceDetectorService,
     private toaster: ToastrService,
   ) {
@@ -78,7 +80,15 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
         // Handle new user creation
         const additionaluserInfo: AdditionalUserInfo | null = getAdditionalUserInfo(userCredential);
         if (additionaluserInfo?.isNewUser) {
-          console.log('new user');
+          this.firestoreService.createNewUser(userCredential.user).subscribe({
+            next: () => {
+              this.toaster.success('New User Created', 'Success!');
+            },
+            error: (error: Error) => {
+              this.toaster.error('Failed to Create New User', 'Error!');
+              console.log(error);
+            },
+          });
         }
         // Google authentication successful
         this.toaster.success('Signed in with Google', 'Success!');
