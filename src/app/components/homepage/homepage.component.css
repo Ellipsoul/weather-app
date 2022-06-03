@@ -12,3 +12,11 @@
 #toggle-button {
   transition: all 0.5 ease-out;
 }
+
+/* Drawer container has an annoying inner container yoinking the flex away */
+::ng-deep .mat-drawer-inner-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  row-gap: 1rem;
+}

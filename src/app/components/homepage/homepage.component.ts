@@ -18,6 +18,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   // Passes theme to parent component
   @Output() themeEvent = new EventEmitter<string>();
   currentTheme: string;
+  // Firebase objects
   firestore: Firestore;
   user: User | null | undefined;
   userSubscription: Subscription | undefined;
@@ -62,8 +63,10 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.themeService.toggleTheme();
   }
 
+  // Calls auth service to sign in with Google
   async googleSignIn(): Promise<void> {
     this.authService.signInWithGoogle().subscribe((userCredential: UserCredential) => {
+      // TODO: Additional documents need to be set when a user first signs in successfully
       const additionaluserInfo: AdditionalUserInfo | null = getAdditionalUserInfo(userCredential);
       if (additionaluserInfo?.isNewUser) {
         console.log('new user');

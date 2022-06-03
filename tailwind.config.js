@@ -12,6 +12,7 @@ module.exports = {
       serif: ['"Fira Code"', 'serif'],
       title: ['Changa', 'sans-serif'],
       slogan: ['Chivo', 'sans-serif'],
+      heading: ['Alike Angular', 'serif'],
     },
     extend: {
       spacing: {
