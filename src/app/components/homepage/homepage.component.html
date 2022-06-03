@@ -22,8 +22,8 @@
     <!-- Previous requests and prompt to sign in/out -->
     <main
       [ngClass]="[
-        'border rounded-lg h-full overflow-y-auto',
-        user ? 'bg-blue-100 dark:bg-zinc-700' : 'bg-gray-200 dark:bg-gray-500'
+        'rounded-lg h-full overflow-y-auto',
+        user ? 'bg-sky-200 dark:bg-slate-800' : 'bg-gray-200 dark:bg-gray-500'
       ]"
     >
       <!-- User is signed in, display past requests with Sign Out at bottom -->
@@ -33,10 +33,23 @@
         <button mat-raised-button (pointerdown)="signOut()">Sign Out</button>
       </div>
       <!-- User not signed in, prompt to sign in -->
-      <div *ngIf="!user">
-        User is not Signed in!
-        <button mat-raised-button (pointerdown)="googleSignIn()">
-          Google Sign In
+      <div
+        *ngIf="!user"
+        ngClass="flex flex-col items-center justify-center h-full gap-y-12 p-3"
+      >
+        <div ngClass="text-3xl text-center font-serif">
+          Sign In with Google to save your Queries
+        </div>
+        <button
+          mat-raised-button
+          color="basic"
+          ngClass="h-20 w-10/12 px-4 bg-cyan-50 dark:bg-slate-700"
+          (click)="googleSignIn()"
+        >
+          <div ngClass="flex flex-row items-center justify-evenly">
+            <img src="../../../assets/google-icon.png" ngClass="w-12 md:w-16" />
+            <div ngClass="text-2xl md:text-4xl font-slogan">Sign In</div>
+          </div>
         </button>
       </div>
     </main>
