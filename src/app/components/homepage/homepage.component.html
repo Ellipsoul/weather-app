@@ -8,13 +8,13 @@
     #drawer
     mode="push"
     [opened]="true"
-    ngClass="w-96 flex flex-col px-4 py-4 gap-y-3"
+    ngClass="w-96 flex flex-col px-4 py-4 gap-y-3 bg-sky-100 dark:bg-sky-900"
   >
     <button mat-raised-button (pointerdown)="googleSignIn()">
       Google Sign In
     </button>
     <button mat-raised-button (pointerdown)="signOut()">Sign Out</button>
-    {{ getCurrentUser() }}
+    {{ user?.displayName }}
   </mat-drawer>
 
   <!-- Container with Drawer Toggle Button and Main Page -->

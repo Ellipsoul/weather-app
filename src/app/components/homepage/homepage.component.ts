@@ -4,6 +4,7 @@ import { UserCredential, User } from '@angular/fire/auth';
 import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
 import { AdditionalUserInfo, getAdditionalUserInfo } from '@firebase/auth';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-homepage',
@@ -15,6 +16,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
   @Output() themeEvent = new EventEmitter<string>();
   currentTheme: string;
   firestore: Firestore;
+  user: User | null | undefined;
+  userSubscription: Subscription | undefined;
 
   constructor(
     private themeService: ThemeService,
@@ -28,6 +31,9 @@ export class HomepageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Subscribe to the current theme from the theme service
     this.themeService.themeEvent.subscribe((theme: string) => this.currentTheme = theme);
+    this.userSubscription = this.authService.user$.subscribe((user: User | null) => {
+      this.user = user;
+    });
   }
 
   // Toggles the theme and informs parent component
@@ -35,11 +41,6 @@ export class HomepageComponent implements OnInit, OnDestroy {
     this.themeService.toggleTheme();
   }
 
-  getCurrentUser(): User | null {
-    return this.authService.getCurrentUser();
-  }
-
-  // TODO: Continue from here
   async googleSignIn(): Promise<void> {
     this.authService.signInWithGoogle().subscribe((userCredential: UserCredential) => {
       const additionaluserInfo: AdditionalUserInfo | null = getAdditionalUserInfo(userCredential);
@@ -59,5 +60,6 @@ export class HomepageComponent implements OnInit, OnDestroy {
   // Unsubscribe from the theme service when the component is destroyed
   ngOnDestroy(): void {
     this.themeService.themeEvent.unsubscribe();
+    this.userSubscription?.unsubscribe();
   }
 }
