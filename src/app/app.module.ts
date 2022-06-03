@@ -10,6 +10,8 @@ import { environment } from '../environments/environment';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { LiveWeatherComponent } from './components/live-weather/live-weather.component';
+import { ForecastWeatherComponent } from './components/forecast-weather/forecast-weather.component';
 
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
@@ -22,8 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ToastrModule } from 'ngx-toastr';
-import { LiveWeatherComponent } from './components/live-weather/live-weather.component';
-import { ForecastWeatherComponent } from './components/forecast-weather/forecast-weather.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { ForecastWeatherComponent } from './components/forecast-weather/forecast
     BrowserAnimationsModule,
     MatTooltipModule,
     MatSidenavModule,
+    MatSlideToggleModule,
+    FormsModule,
     ToastrModule.forRoot({
       timeOut: 2000,
       positionClass: 'toast-bottom-left',

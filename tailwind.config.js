@@ -13,6 +13,7 @@ module.exports = {
       title: ['Changa', 'sans-serif'],
       slogan: ['Chivo', 'sans-serif'],
       heading: ['Alike Angular', 'serif'],
+      toggle: ['Share Tech', 'sans-serif'],
     },
     extend: {
       spacing: {

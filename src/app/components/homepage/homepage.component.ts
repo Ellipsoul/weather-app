@@ -2,12 +2,14 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild,
   AfterViewInit, NgZone } from '@angular/core';
 import { getFirestore, Firestore } from '@angular/fire/firestore';
 import { UserCredential, User } from '@angular/fire/auth';
+
 import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { ToastrService } from 'ngx-toastr';
-import { AdditionalUserInfo, getAdditionalUserInfo } from '@firebase/auth';
 import { DeviceDetectorService } from 'ngx-device-detector';
+
+import { AdditionalUserInfo, getAdditionalUserInfo } from '@firebase/auth';
 import { Subscription } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
 
@@ -35,6 +37,8 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   drawerClosing: boolean | undefined;
   drawerClosingSubscription: Subscription | undefined;
+
+  showForecastWeather: boolean | undefined;
 
   constructor(
     private themeService: ThemeService,
@@ -114,6 +118,11 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(error);
       },
     });
+  }
+
+  onChange($event: any) {
+    this.showForecastWeather = $event.checked;
+    console.log(this.showForecastWeather);
   }
 
   // Unsubscribe from the theme service when the component is destroyed

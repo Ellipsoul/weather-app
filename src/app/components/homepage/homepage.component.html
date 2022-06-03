@@ -7,7 +7,7 @@
   <mat-drawer
     #drawer
     [mode]="isMobile ? 'over' : 'side'"
-    [opened]="true"
+    [opened]="false"
     ngClass="flex flex-col w-64 md:w-96 px-2 md:px-3 py-2
     bg-sky-100 dark:bg-slate-700 text-black dark:text-white"
   >
@@ -89,8 +89,19 @@
     >
       <header>Live Weather</header>
       <div>Search</div>
-      <app-live-weather></app-live-weather>
-      <footer>Mode Toggle</footer>
+      <app-forecast-weather *ngIf="showForecastWeather"></app-forecast-weather>
+      <app-live-weather *ngIf="!showForecastWeather"></app-live-weather>
+      <footer
+        ngClass="flex flex-row justify-center items-center w-full border text-center
+          px-3 py-2 gap-x-6 md:gap-x-10 font-toggle text-2xl md:text-3xl tracking-tight"
+      >
+        <div>Live Weather</div>
+        <mat-slide-toggle
+          (change)="onChange($event)"
+          [(ngModel)]="showForecastWeather"
+        ></mat-slide-toggle>
+        <div>7-Day Forecast</div>
+      </footer>
       <button (click)="toggleTheme()">Toggle Theme</button>
     </section>
   </mat-drawer-content>

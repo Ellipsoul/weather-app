@@ -19,3 +19,38 @@
   flex-grow: 1;
   flex-direction: column;
 }
+
+/* Customer slide toggle background and size */
+
+/* Thumb, not checked */
+::ng-deep
+  .mat-slide-toggle:not(.mat-checked):not(.mat-disabled)
+  .mat-slide-toggle-thumb {
+  background-color: #0c4a6e;
+}
+
+/* Thumb, checked */
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
+  background-color: #166534;
+}
+
+/* Bar, not checked */
+::ng-deep
+  .mat-slide-toggle:not(.mat-checked):not(.mat-disabled)
+  .mat-slide-toggle-bar {
+  background-color: #38bdf8;
+}
+
+/* Bar, checked */
+::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
+  background-color: #86efac;
+}
+
+/* Larger slide toggle */
+.mat-slide-toggle {
+  transform: scale(1.5);
+}
