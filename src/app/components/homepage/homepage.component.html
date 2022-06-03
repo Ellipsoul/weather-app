@@ -1,12 +1,12 @@
 <!-- Entire component will reside within a drawer container -->
 <mat-drawer-container
   class="grow bg-cyan-50 dark:bg-zinc-900"
-  [hasBackdrop]="!isDesktop"
+  [hasBackdrop]="isMobile"
 >
   <!-- Content within drawer -->
   <mat-drawer
     #drawer
-    [mode]="isDesktop ? 'push' : 'over'"
+    [mode]="isMobile ? 'over' : 'push'"
     [opened]="true"
     ngClass="flex flex-col w-64 md:w-96 px-2 md:px-3 py-2
     bg-sky-100 dark:bg-slate-700 text-black dark:text-white"
@@ -54,13 +54,13 @@
         id="toggle-button"
         [ngClass]="[
           'text-black dark:text-white rounded-full',
-          !isDesktop && isDrawerOpen ? 'left-64 md:left-96' : ''
+          isMobile && isDrawerOpen ? 'left-64 md:left-96' : ''
         ]"
       >
         <mat-icon
           [ngClass]="[
             'text-5xl absolute bottom-5 right-5',
-            drawerClosing && !isDesktop ? 'hidden' : ''
+            drawerClosing && isMobile ? 'hidden' : ''
           ]"
         >
           {{ drawer.opened ? 'chevron_left' : 'chevron_right' }}

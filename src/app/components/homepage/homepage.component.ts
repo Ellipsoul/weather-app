@@ -23,7 +23,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   user: User | null | undefined;
   userSubscription: Subscription | undefined;
   // Mobile Device management
-  isDesktop: boolean;
+  isMobile: boolean;
   @ViewChild('drawer') drawer: MatDrawer | undefined;
   isDrawerOpen: boolean | undefined;
   drawerClosing: boolean | undefined;
@@ -36,7 +36,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     // Retrieve initial theme value from theme service
     this.currentTheme = this.themeService.getTheme();
     this.firestore = getFirestore();
-    this.isDesktop = this.deviceService.isDesktop();
+    this.isMobile = this.deviceService.isMobile();
   }
 
   ngOnInit(): void {
