@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild,
-  AfterViewInit } from '@angular/core';
+  AfterViewInit, NgZone } from '@angular/core';
 import { getFirestore, Firestore } from '@angular/fire/firestore';
 import { UserCredential, User } from '@angular/fire/auth';
 import { ThemeService } from '../../services/theme.service';
@@ -42,6 +42,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     private firestoreService: FirestoreService,
     private deviceService: DeviceDetectorService,
     private toaster: ToastrService,
+    private ngZone: NgZone,
   ) {
     // Retrieve initial theme value from theme service
     this.currentTheme = this.themeService.getTheme();
@@ -53,7 +54,9 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     // Subscribe to the current theme from the theme service
     this.themeService.themeEvent.subscribe((theme: string) => this.currentTheme = theme);
     this.userSubscription = this.authService.user$.subscribe((user: User | null) => {
-      this.user = user;
+      this.ngZone.run(() => {
+        this.user = user;
+      });
     });
   }
 
@@ -82,7 +85,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
         if (additionaluserInfo?.isNewUser) {
           this.firestoreService.createNewUser(userCredential.user).subscribe({
             next: () => {
-              this.toaster.success('New User Created', 'Success!');
+              this.toaster.success('New User Created', 'Welcome!');
             },
             error: (error: Error) => {
               this.toaster.error('Failed to Create New User', 'Error!');
