@@ -8,3 +8,7 @@
     @apply bg-yellow-100 flex flex-row grow;
   }
 }
+
+#toggle-button {
+  transition: all 0.5 ease-out;
+}

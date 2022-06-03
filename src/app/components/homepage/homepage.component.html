@@ -1,20 +1,22 @@
 <!-- Entire component will reside within a drawer container -->
 <mat-drawer-container
   class="grow bg-blue-200 dark:bg-blue-800"
-  [hasBackdrop]="false"
+  [hasBackdrop]="!isDesktop"
 >
   <!-- Content within drawer -->
   <mat-drawer
     #drawer
-    mode="push"
+    [mode]="isDesktop ? 'push' : 'over'"
     [opened]="true"
-    ngClass="w-96 flex flex-col px-4 py-4 gap-y-3 bg-sky-100 dark:bg-sky-900"
+    ngClass="w-64 md:w-96 flex flex-col px-4 py-4 gap-y-3 bg-sky-100 dark:bg-sky-900 border border-pink-200"
   >
-    <button mat-raised-button (pointerdown)="googleSignIn()">
-      Google Sign In
-    </button>
-    <button mat-raised-button (pointerdown)="signOut()">Sign Out</button>
-    {{ user?.displayName }}
+    <div ngClass="">
+      <button mat-raised-button (pointerdown)="googleSignIn()">
+        Google Sign In
+      </button>
+      <button mat-raised-button (pointerdown)="signOut()">Sign Out</button>
+      {{ user?.displayName }}
+    </div>
   </mat-drawer>
 
   <!-- Container with Drawer Toggle Button and Main Page -->
@@ -25,9 +27,18 @@
       <button
         mat-icon-button
         (click)="drawer.toggle()"
-        ngClass="text-black dark:text-white rounded-full"
+        id="toggle-button"
+        [ngClass]="[
+          'text-black dark:text-white rounded-full',
+          !isDesktop && isDrawerOpen ? 'left-64 md:left-96' : ''
+        ]"
       >
-        <mat-icon ngClass="text-5xl absolute bottom-5 right-5">
+        <mat-icon
+          [ngClass]="[
+            'text-5xl absolute bottom-5 right-5',
+            drawerClosing && !isDesktop ? 'hidden' : ''
+          ]"
+        >
           {{ drawer.opened ? 'chevron_left' : 'chevron_right' }}
         </mat-icon>
       </button>
