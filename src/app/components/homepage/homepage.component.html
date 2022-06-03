@@ -83,10 +83,15 @@
     </aside>
 
     <!-- Main Page Content -->
-    <div
-      ngClass="text-black dark:text-white grow bg-cyan-50 dark:bg-zinc-900 border border-green-300"
+    <section
+      ngClass="text-black dark:text-white grow bg-cyan-50 dark:bg-zinc-900
+      flex flex-col justify-start items-center px-2 md:px-4 py-4 gap-y-3 border border-green-300"
     >
+      <header>Live Weather</header>
+      <div>Search</div>
+      <app-live-weather></app-live-weather>
+      <footer>Mode Toggle</footer>
       <button (click)="toggleTheme()">Toggle Theme</button>
-    </div>
+    </section>
   </mat-drawer-content>
 </mat-drawer-container>

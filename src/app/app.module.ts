@@ -22,6 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ToastrModule } from 'ngx-toastr';
+import { LiveWeatherComponent } from './components/live-weather/live-weather.component';
+import { ForecastWeatherComponent } from './components/forecast-weather/forecast-weather.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { ToastrModule } from 'ngx-toastr';
     NavbarComponent,
     HomepageComponent,
     ProfileComponent,
+    LiveWeatherComponent,
+    ForecastWeatherComponent,
   ],
   imports: [
     CommonModule,

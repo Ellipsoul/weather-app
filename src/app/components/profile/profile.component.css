@@ -1,0 +1,6 @@
+@import-normalize;
+@tailwind base;
+@tailwind components;
+
+@layer components {
+}
