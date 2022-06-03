@@ -18,15 +18,21 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   // Passes theme to parent component
   @Output() themeEvent = new EventEmitter<string>();
   currentTheme: string;
+
   // Firebase objects
   firestore: Firestore;
   user: User | null | undefined;
   userSubscription: Subscription | undefined;
+
   // Mobile Device management
   isMobile: boolean;
   @ViewChild('drawer') drawer: MatDrawer | undefined;
+
   isDrawerOpen: boolean | undefined;
+  drawerStatusSubscription: Subscription | undefined;
+
   drawerClosing: boolean | undefined;
+  drawerClosingSubscription: Subscription | undefined;
 
   constructor(
     private themeService: ThemeService,
@@ -49,11 +55,11 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Subscribe to drawer status after view is initialized
   ngAfterViewInit(): void {
-    this.drawer?.openedChange.subscribe((isOpen: boolean) => {
+    this.drawerStatusSubscription = this.drawer?.openedChange.subscribe((isOpen: boolean) => {
       this.isDrawerOpen = isOpen;
       this.drawerClosing = false;
     });
-    this.drawer?.closedStart.subscribe(() => {
+    this.drawerClosingSubscription = this.drawer?.closedStart.subscribe(() => {
       this.drawerClosing = true;
     });
   }
@@ -83,7 +89,8 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Unsubscribe from the theme service when the component is destroyed
   ngOnDestroy(): void {
-    this.themeService.themeEvent.unsubscribe();
     this.userSubscription?.unsubscribe();
+    this.drawerStatusSubscription?.unsubscribe();
+    this.drawerClosingSubscription?.unsubscribe();
   }
 }
