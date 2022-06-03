@@ -1,6 +1,6 @@
 <!-- Entire component will reside within a drawer container -->
 <mat-drawer-container
-  class="grow bg-blue-200 dark:bg-blue-800"
+  class="grow bg-cyan-50 dark:bg-zinc-900"
   [hasBackdrop]="!isDesktop"
 >
   <!-- Content within drawer -->
@@ -8,19 +8,24 @@
     #drawer
     [mode]="isDesktop ? 'push' : 'over'"
     [opened]="true"
-    ngClass="flex flex-col w-64 md:w-96 px-2 py-2 md:px-4 md:py-4
-    bg-sky-100 dark:bg-sky-900 text-black dark:text-white border border-pink-200"
+    ngClass="flex flex-col w-64 md:w-96 px-2 md:px-3 py-2
+    bg-sky-100 dark:bg-slate-700 text-black dark:text-white"
   >
     <!-- Past Queries Header -->
     <header
       ngClass="text-2xl md:text-3xl font-heading font-bold text-center
-      border border-green-200 py-1 md:py-3"
+        py-1 md:py-3"
     >
       Past Queries
     </header>
 
     <!-- Previous requests and prompt to sign in/out -->
-    <main ngClass="border border-amber-200 h-full overflow-y-auto">
+    <main
+      [ngClass]="[
+        'border rounded-lg h-full overflow-y-auto',
+        user ? 'bg-blue-100 dark:bg-zinc-700' : 'bg-gray-200 dark:bg-gray-500'
+      ]"
+    >
       <!-- User is signed in, display past requests with Sign Out at bottom -->
       <div *ngIf="user">
         User is Signed in!
@@ -65,7 +70,7 @@
     </aside>
 
     <!-- Main Page Content -->
-    <div ngClass="text-black grow bg-blue-200 dark:bg-blue-800">
+    <div ngClass="text-black dark:text-white grow bg-cyan-50 dark:bg-zinc-900">
       <button (click)="toggleTheme()">Toggle Theme</button>
     </div>
   </mat-drawer-content>
