@@ -6,7 +6,7 @@
   <!-- Content within drawer -->
   <mat-drawer
     #drawer
-    [mode]="isMobile ? 'over' : 'push'"
+    [mode]="isMobile ? 'over' : 'side'"
     [opened]="true"
     ngClass="flex flex-col w-64 md:w-96 px-2 md:px-3 py-2
     bg-sky-100 dark:bg-slate-700 text-black dark:text-white"
@@ -83,7 +83,9 @@
     </aside>
 
     <!-- Main Page Content -->
-    <div ngClass="text-black dark:text-white grow bg-cyan-50 dark:bg-zinc-900">
+    <div
+      ngClass="text-black dark:text-white grow bg-cyan-50 dark:bg-zinc-900 border border-green-300"
+    >
       <button (click)="toggleTheme()">Toggle Theme</button>
     </div>
   </mat-drawer-content>
