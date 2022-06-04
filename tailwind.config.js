@@ -14,6 +14,7 @@ module.exports = {
       slogan: ['Chivo', 'sans-serif'],
       heading: ['Alike Angular', 'serif'],
       toggle: ['Share Tech', 'sans-serif'],
+      weatherheader: ['Rhodium Libre', 'sans-serif'],
     },
     extend: {
       spacing: {

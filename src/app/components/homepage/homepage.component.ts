@@ -10,8 +10,13 @@ import { ToastrService } from 'ngx-toastr';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { AdditionalUserInfo, getAdditionalUserInfo } from '@firebase/auth';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime, distinctUntilChanged, filter,
+  switchMap,
+  tap,
+  finalize} from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
+import { FormControl, Validators } from '@angular/forms';
+import { WeatherapiService, WeatherApiLocation } from 'src/app/services/weatherapi.service';
 
 @Component({
   selector: 'app-homepage',
@@ -22,23 +27,27 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   // Passes theme to parent component
   @Output() themeEvent = new EventEmitter<string>();
   currentTheme: string;
-
   // Firebase objects
   firestore: Firestore;
   user: User | null | undefined;
   userSubscription: Subscription | undefined;
-
   // Mobile Device management
   isMobile: boolean;
   @ViewChild('drawer') drawer: MatDrawer | undefined;
-
+  // Checking the status of the drawer
   isDrawerOpen: boolean | undefined;
   drawerStatusSubscription: Subscription | undefined;
-
+  // Checking if the drawer is currently closing
   drawerClosing: boolean | undefined;
   drawerClosingSubscription: Subscription | undefined;
-
+  // Dynamic variable to show correct weather display
   showForecastWeather: boolean | undefined;
+  // Autocomplete input for weather location query
+  weatherLocationInput =
+    new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
+  filteredLocations$: Subscription;
+  filteredLocationNames: string[] | undefined;
+  autocompleteLoading: boolean | undefined;
 
   constructor(
     private themeService: ThemeService,
@@ -47,11 +56,30 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     private deviceService: DeviceDetectorService,
     private toaster: ToastrService,
     private ngZone: NgZone,
+    private weatherapiService: WeatherapiService,
   ) {
+    this.autocompleteLoading = false;
     // Retrieve initial theme value from theme service
     this.currentTheme = this.themeService.getTheme();
     this.firestore = getFirestore();
     this.isMobile = this.deviceService.isMobile();
+    this.filteredLocations$ = this.weatherLocationInput.valueChanges.pipe(
+        distinctUntilChanged(),
+        debounceTime(1000),
+        tap(() => {
+          this.autocompleteLoading = true;
+        }),
+        filter((name) => name.length > 2),
+        switchMap((name) => this.weatherapiService.getAutoComplete(name)),
+    ).subscribe({
+      next: (locations: WeatherApiLocation[]) => {
+        this.filteredLocationNames = locations.map((location) => location.name);
+        this.autocompleteLoading = false;
+      },
+      error: (error: Error) => {
+        console.log(error);
+      },
+    });
   }
 
   ngOnInit(): void {
