@@ -104,6 +104,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.user = user;
       });
     });
+    // Subscribe to the previous queries from the past queries service
     this.pastQueriesSubscription = this.pastqueriesService.pastQueries
         .subscribe((queries: WeatherQuery[]) => {
           this.pastQueries = queries;
@@ -175,6 +176,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   getWeather(): void {
     const weatherType: WeatherType =
     this.showForecastWeather ? WeatherType.Forecast : WeatherType.Live;
+    // Live weather
     if (weatherType === WeatherType.Live) {
       this.weatherapiService.getLiveWeather(this.weatherLocationInput.value).subscribe({
         next: (weatherData: AxiosResponse<WeatherLiveResponse>) => {
@@ -196,7 +198,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
           console.log(error);
         },
       });
-    } else {
+    } else { // Forecast weather
       this.weatherapiService.getForecastWeather(this.weatherLocationInput.value).subscribe({
         next: (weatherData: AxiosResponse<WeatherForecastResponse>) => {
           this.forecastWeatherData = weatherData.data;

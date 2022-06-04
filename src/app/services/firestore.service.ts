@@ -98,6 +98,7 @@ export class FirestoreService implements OnInit, OnDestroy {
     return from(getDocs(queriesCollection));
   }
 
+  // Retrieve the current user document reference
   getUserDocRef(user: User | null): DocumentReference<DocumentData> | void {
     if (!user) return;
     return doc(this.firestore, 'users', user.uid);

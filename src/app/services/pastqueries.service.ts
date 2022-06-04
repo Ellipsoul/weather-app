@@ -17,7 +17,9 @@ export class PastqueriesService implements OnDestroy {
     private firestoreService: FirestoreService,
     private authService: AuthService,
     private ngZone: NgZone) {
+    // Initialise past queries
     this.pastQueries = new BehaviorSubject<WeatherQuery[]>([]);
+    // Subscribe to the current user object and query past queries when object is available
     this.userSubscription = this.authService.user$.subscribe((user: User | null) => {
       this.ngZone.run(() => {
         this.user = user;
@@ -35,10 +37,12 @@ export class PastqueriesService implements OnDestroy {
     this.sortQueries();
   }
 
+  // Get all of the most updated queries
   getCurrentQueries(): WeatherQuery[] {
     return this.pastQueries.getValue();
   }
 
+  // Call firestore service to get past queries and append them to the list
   getPastQueries(user: User | null): WeatherQuery[] {
     this.firestoreService.getPastQueries(user).subscribe({
       next: ((snapshot: QuerySnapshot) => {

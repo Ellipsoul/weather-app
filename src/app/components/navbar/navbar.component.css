@@ -18,6 +18,7 @@
     @apply pl-5 py-1;
   }
 
+  /* Customer sizes for LinkedIn and GitHub images */
   .linkedin-link {
     @apply w-13 md:w-15 lg:w-17;
   }

@@ -7,6 +7,7 @@ import { WeatherForecastResponse } from 'src/app/services/weatherapi.service';
   styleUrls: ['./forecast-weather.component.css'],
 })
 export class ForecastWeatherComponent implements OnInit {
+  // Forecast Weather data retrieved from parent
   @Input() forecastWeatherData: WeatherForecastResponse | undefined;
   constructor() { }
 

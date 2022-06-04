@@ -29,13 +29,14 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private ngZone: NgZone,
-    private firestoreService: FirestoreService) {
+    private firestoreService: FirestoreService,
+  ) {
+    // Subscribe to user object and load in profile info once object is available
     this.userSubscription = this.authService.user$.subscribe((user: User | null) => {
       this.ngZone.run(() => {
         this.user = user;
         onSnapshot(this.firestoreService.getUserDocRef(user)!, (doc) => {
           this.profileInfo = doc.data() as ProfileInfo;
-          console.log(this.profileInfo);
         });
       });
     });

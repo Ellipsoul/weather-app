@@ -64,7 +64,7 @@
   color: gray !important;
 }
 
-/* Custom input width and padding */
+/* Custom input width and padding to centralise element */
 ::ng-deep mat-form-field > * {
   width: calc(80% - 5vw) !important;
 }

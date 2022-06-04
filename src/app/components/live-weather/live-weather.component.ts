@@ -7,6 +7,7 @@ import { WeatherLiveResponse } from 'src/app/services/weatherapi.service';
   styleUrls: ['./live-weather.component.css'],
 })
 export class LiveWeatherComponent implements OnInit {
+  // Live Weather data retrieved from parent
   @Input() liveWeatherData: WeatherLiveResponse | undefined;
   constructor() { }
 
