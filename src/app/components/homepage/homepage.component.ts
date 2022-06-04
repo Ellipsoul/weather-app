@@ -104,6 +104,10 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.user = user;
       });
     });
+    this.pastQueriesSubscription = this.pastqueriesService.pastQueries
+        .subscribe((queries: WeatherQuery[]) => {
+          this.pastQueries = queries;
+        });
   }
 
   // Subscribe to drawer status after view is initialized
@@ -177,7 +181,13 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
           this.liveWeatherData = weatherData.data;
           // If the user is logged in, save the weather data to their profile
           if (this.user) {
-            this.firestoreService.logLiveWeatherQuery(this.user, this.weatherLocationInput.value);
+            const weatherQuery: WeatherQuery = {
+              location: this.weatherLocationInput.value,
+              type: WeatherType.Forecast,
+              dateQueried: Date.now(),
+            };
+            this.firestoreService.logLiveWeatherQuery(this.user, weatherQuery);
+            this.pastqueriesService.appendQuery(weatherQuery);
             this.weatherLocationInput.reset();
           }
         },
@@ -192,8 +202,14 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
           this.forecastWeatherData = weatherData.data;
           // If the user is logged in, save the weather data to their profile
           if (this.user) {
+            const weatherQuery: WeatherQuery = {
+              location: this.weatherLocationInput.value,
+              type: WeatherType.Forecast,
+              dateQueried: Date.now(),
+            };
             this.firestoreService.logForecastWeatherQuery(
-                this.user, this.weatherLocationInput.value);
+                this.user, weatherQuery);
+            this.pastqueriesService.appendQuery(weatherQuery);
           };
           this.weatherLocationInput.reset();
         },

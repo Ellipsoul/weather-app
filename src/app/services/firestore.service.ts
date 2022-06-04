@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { User } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
 import { Firestore, DocumentReference, DocumentData, doc, setDoc, writeBatch,
@@ -32,14 +32,16 @@ export class FirestoreService implements OnInit, OnDestroy {
   // Retrieve firestore database
   firestore!: Firestore;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private ngZone: NgZone) {
     this.firestore = getFirestore();
   }
 
   ngOnInit(): void {
     // Subscribe to the current user object
     this.userSubscription = this.authService.user$.subscribe((user: User | null) => {
-      this.user = user;
+      this.ngZone.run(() => {
+        this.user = user;
+      });
     });
   }
 
@@ -57,7 +59,7 @@ export class FirestoreService implements OnInit, OnDestroy {
   }
 
   // Log a user's successful live weather query
-  logLiveWeatherQuery(user: User, query: string): Observable<void> {
+  logLiveWeatherQuery(user: User, weatherQuery: WeatherQuery): Observable<void> {
     // Perform a batch write for query and increment
     const batch: WriteBatch = writeBatch(this.firestore);
     const currentDate: number = Date.now();
@@ -67,18 +69,13 @@ export class FirestoreService implements OnInit, OnDestroy {
     // Query log write
     const queryLogRef: DocumentReference<DocumentData> =
       doc(this.firestore, 'users', user.uid, 'queries', currentDate.toString());
-    const weatherQuery: WeatherQuery = {
-      location: query,
-      type: WeatherType.Live,
-      dateQueried: currentDate,
-    };
     batch.set(queryLogRef, weatherQuery);
     // Execute the batch write
     return from(batch.commit()).pipe(retry(3));
   }
 
   // Log a user's successful forecast weather query
-  logForecastWeatherQuery(user: User, query: string): Observable<void> {
+  logForecastWeatherQuery(user: User, weatherQuery: WeatherQuery): Observable<void> {
     // Perform a batch write for query and increment
     const batch: WriteBatch = writeBatch(this.firestore);
     const currentDate: number = Date.now();
@@ -88,18 +85,14 @@ export class FirestoreService implements OnInit, OnDestroy {
     // Query log write
     const queryLogRef: DocumentReference<DocumentData> =
       doc(this.firestore, 'users', user.uid, 'queries', currentDate.toString());
-    const weatherQuery: WeatherQuery = {
-      location: query,
-      type: WeatherType.Forecast,
-      dateQueried: currentDate,
-    };
     batch.set(queryLogRef, weatherQuery);
     // Execute the batch write
     return from(batch.commit()).pipe(retry(3));
   }
 
   // Get the previous queries from the user's firestore database
-  getPastQueries(user: User): Observable<QuerySnapshot<DocumentData>> {
+  getPastQueries(user: User | null): Observable<QuerySnapshot<DocumentData>> {
+    if (!user) return from([]);
     const queriesCollection: CollectionReference<DocumentData> =
       collection(this.firestore, 'users', user.uid, 'queries');
     return from(getDocs(queriesCollection));
