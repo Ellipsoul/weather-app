@@ -11,11 +11,12 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { AdditionalUserInfo, getAdditionalUserInfo } from '@firebase/auth';
 import { Subscription, debounceTime, distinctUntilChanged, filter,
-  switchMap,
-  tap } from 'rxjs';
+  switchMap, tap } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
 import { FormControl, Validators } from '@angular/forms';
-import { WeatherapiService, WeatherApiLocation } from 'src/app/services/weatherapi.service';
+import { WeatherapiService, WeatherAutocompleteLocation,
+  WeatherType, WeatherLiveResponse, WeatherForecastResponse,
+} from 'src/app/services/weatherapi.service';
 
 @Component({
   selector: 'app-homepage',
@@ -48,6 +49,9 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   emptyLocations: Subscription;
   filteredLocationNames: string[] | undefined;
   autocompleteLoading: boolean | undefined;
+  // Weather data to be passed to children
+  liveWeatherData: WeatherLiveResponse | undefined;
+  forecastWeatherData: WeatherForecastResponse | undefined;
 
   constructor(
     private themeService: ThemeService,
@@ -66,19 +70,19 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredLocations$ = this.weatherLocationInput.valueChanges.pipe(
         distinctUntilChanged(),
         debounceTime(1000),
-        filter((name) => name.length > 2),
+        filter((name) => name && name.length > 2),
         tap(() => {
           this.autocompleteLoading = true;
         }),
         switchMap((name) => this.weatherapiService.getAutoComplete(name)),
     ).subscribe((locationdata: any) => {
       this.filteredLocationNames = locationdata.data.map(
-          (location: WeatherApiLocation) => `${location.name}, ${location.country}`);
+          (location: WeatherAutocompleteLocation) => `${location.name}, ${location.country}`);
       this.autocompleteLoading = false;
     },
     );
     this.emptyLocations = this.weatherLocationInput.valueChanges.subscribe((name) => {
-      if (name.length < 3) {
+      if (!name || name.length < 3) {
         this.filteredLocationNames = undefined;
       }
     });
@@ -150,8 +154,40 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  onChange($event: any) {
+  // Change whether to show weather forecast or live weather
+  toggleWeatherView($event: any) {
     this.showForecastWeather = $event.checked;
+  }
+
+  // Retrieve weather from weather api
+  getWeather(): void {
+    const weatherType: WeatherType =
+    this.showForecastWeather ? WeatherType.Forecast : WeatherType.Live;
+    if (weatherType === WeatherType.Live) {
+      this.weatherapiService.getLiveWeather(this.weatherLocationInput.value).subscribe({
+        next: (weatherData: any) => {
+          this.weatherLocationInput.reset();
+          this.liveWeatherData = weatherData.data;
+          console.log(this.liveWeatherData);
+        },
+        error: (error: Error) => {
+          this.toaster.error('Failed to live weather', 'Error!');
+          console.log(error);
+        },
+      });
+    } else {
+      this.weatherapiService.getForecastWeather(this.weatherLocationInput.value).subscribe({
+        next: (weatherData: any) => {
+          this.weatherLocationInput.reset();
+          this.forecastWeatherData = weatherData.data;
+          console.log(this.forecastWeatherData);
+        },
+        error: (error: Error) => {
+          this.toaster.error('Failed to forecast weather', 'Error!');
+          console.log(error);
+        },
+      });
+    }
   }
 
   // Unsubscribe from the theme service when the component is destroyed

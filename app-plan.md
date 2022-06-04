@@ -61,8 +61,8 @@ Online
 
 #### Supported Weather Queries
 
-- Support current weather (detailed view) and future 7-day forecast weather (less detail for 7 dats)
-- Only authorised userse can use the 7-day forecast feature
+- Support current weather (detailed view) and future 3-day forecast weather (less detail for 7 dats)
+- Only authorised userse can use the 3-day forecast feature
 - To keep things simple, do not allow users to select the number of days for forecast, otherise grid can be messed up
 
 #### Authentication Model

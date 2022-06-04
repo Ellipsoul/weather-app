@@ -89,10 +89,10 @@
     >
       <!-- Dynamic Heading -->
       <header ngClass="text-3xl md:text-4xl lg:text-5xl font-weatherheader">
-        {{ showForecastWeather ? '7-Day Forecast 🕒' : 'Live Weather 🏖' }}
+        {{ showForecastWeather ? '3-Day Forecast 🕒' : 'Live Weather 🏖' }}
       </header>
       <!-- Filter Autocomplete -->
-      <form ngClass="w-full">
+      <form ngClass="w-full" (ngSubmit)="getWeather()">
         <mat-form-field appearance="outline" ngClass="w-full auto-margin-left">
           <mat-label class="text-black dark:text-white">
             Search Location!
@@ -105,7 +105,14 @@
             [formControl]="weatherLocationInput"
             [matAutocomplete]="auto"
           />
-          <mat-icon matSuffix>search</mat-icon>
+          <button
+            type="submit"
+            mat-icon-button
+            matSuffix
+            ngClass="border rounded-xl border-black dark:border-white p-3"
+          >
+            <mat-icon>search</mat-icon>
+          </button>
           <mat-hint class="text-black dark:text-white text-center">
             {{
               weatherLocationInput?.errors
@@ -125,18 +132,21 @@
       </form>
       <!-- Conditional Weather Result Components -->
       <app-forecast-weather *ngIf="showForecastWeather"></app-forecast-weather>
-      <app-live-weather *ngIf="!showForecastWeather"></app-live-weather>
+      <app-live-weather
+        *ngIf="!showForecastWeather"
+        [liveWeatherData]="liveWeatherData"
+      ></app-live-weather>
       <!-- Slider  -->
       <footer
-        ngClass="flex flex-row justify-center items-center w-full border text-center
+        ngClass="flex flex-row justify-center items-center w-full border border-transparent text-center
           px-3 py-2 gap-x-6 md:gap-x-10 font-toggle text-2xl md:text-3xl tracking-tight"
       >
         <div>Live Weather</div>
         <mat-slide-toggle
-          (change)="onChange($event)"
+          (change)="toggleWeatherView($event)"
           [(ngModel)]="showForecastWeather"
         ></mat-slide-toggle>
-        <div>7-Day Forecast</div>
+        <div>3-Day Forecast</div>
       </footer>
       <button (click)="toggleTheme()">Toggle Theme</button>
     </section>
