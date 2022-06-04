@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, delay } from 'rxjs';
+import Axios, { AxiosObservable } from 'axios-observable';
 
 export interface WeatherApiLocation {
   id: number,
@@ -17,26 +17,15 @@ export interface WeatherApiLocation {
 export class WeatherapiService {
   constructor() { }
 
-  getAutoComplete(query: string): Observable<WeatherApiLocation[]> {
-    return of([
-      {
-        'id': 2801268,
-        'name': 'London',
-        'region': 'City of London, Greater London',
-        'country': 'United Kingdom',
-        'lat': 51.52,
-        'lon': -0.11,
-        'url': 'london-city-of-london-greater-london-united-kingdom',
-      },
-      {
-        'id': 2796590,
-        'name': 'Holborn',
-        'region': 'Camden, Greater London',
-        'country': 'United Kingdom',
-        'lat': 51.52,
-        'lon': -0.12,
-        'url': 'holborn-camden-greater-london-united-kingdom',
-      },
-    ]).pipe(delay(1000));
+  // Retrieves query autocomplete options from the API
+  getAutoComplete(query: string): AxiosObservable<WeatherApiLocation[]> {
+    console.log(query);
+    return Axios.get(
+        'https://api.weatherapi.com/v1/search.json',
+        {
+          headers: { key: 'bb3ea939b5fb4251bc0180930220905'},
+          params: { q: query },
+        },
+    );
   }
 }

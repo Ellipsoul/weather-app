@@ -12,8 +12,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { AdditionalUserInfo, getAdditionalUserInfo } from '@firebase/auth';
 import { Subscription, debounceTime, distinctUntilChanged, filter,
   switchMap,
-  tap,
-  finalize} from 'rxjs';
+  tap } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
 import { FormControl, Validators } from '@angular/forms';
 import { WeatherapiService, WeatherApiLocation } from 'src/app/services/weatherapi.service';
@@ -66,20 +65,17 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredLocations$ = this.weatherLocationInput.valueChanges.pipe(
         distinctUntilChanged(),
         debounceTime(1000),
+        filter((name) => name.length > 2),
         tap(() => {
           this.autocompleteLoading = true;
         }),
-        filter((name) => name.length > 2),
         switchMap((name) => this.weatherapiService.getAutoComplete(name)),
-    ).subscribe({
-      next: (locations: WeatherApiLocation[]) => {
-        this.filteredLocationNames = locations.map((location) => location.name);
-        this.autocompleteLoading = false;
-      },
-      error: (error: Error) => {
-        console.log(error);
-      },
-    });
+    ).subscribe((locationdata: any) => {
+      this.filteredLocationNames = locationdata.data.map(
+          (location: WeatherApiLocation) => location.name);
+      this.autocompleteLoading = false;
+    },
+    );
   }
 
   ngOnInit(): void {
@@ -150,7 +146,6 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onChange($event: any) {
     this.showForecastWeather = $event.checked;
-    console.log(this.showForecastWeather);
   }
 
   // Unsubscribe from the theme service when the component is destroyed
