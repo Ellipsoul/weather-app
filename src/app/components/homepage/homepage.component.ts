@@ -5,7 +5,7 @@ import { UserCredential, User } from '@angular/fire/auth';
 
 import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
-import { FirestoreService } from 'src/app/services/firestore.service';
+import { FirestoreService, WeatherQuery } from 'src/app/services/firestore.service';
 import { ToastrService } from 'ngx-toastr';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -18,6 +18,7 @@ import { WeatherapiService, WeatherAutocompleteLocation,
   WeatherType, WeatherLiveResponse, WeatherForecastResponse,
 } from 'src/app/services/weatherapi.service';
 import { AxiosResponse } from 'axios';
+import { PastqueriesService } from 'src/app/services/pastqueries.service';
 
 @Component({
   selector: 'app-homepage',
@@ -45,7 +46,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   showForecastWeather: boolean | undefined;
   // Autocomplete input for weather location query
   weatherLocationInput =
-    new FormControl('', [Validators.minLength(3), Validators.maxLength(30)]);
+    new FormControl('', [Validators.minLength(3), Validators.maxLength(50)]);
   filteredLocations$: Subscription;
   emptyLocations: Subscription;
   filteredLocationNames: string[] | undefined;
@@ -53,6 +54,9 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   // Weather data to be passed to children
   liveWeatherData: WeatherLiveResponse | undefined;
   forecastWeatherData: WeatherForecastResponse | undefined;
+  // Past weather queries by user
+  pastQueries: WeatherQuery[] = [];
+  pastQueriesSubscription: Subscription | undefined;
 
   constructor(
     private themeService: ThemeService,
@@ -62,12 +66,15 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     private toaster: ToastrService,
     private ngZone: NgZone,
     private weatherapiService: WeatherapiService,
+    private pastqueriesService: PastqueriesService,
   ) {
     this.autocompleteLoading = false;
     // Retrieve initial theme value from theme service
     this.currentTheme = this.themeService.getTheme();
+    // Get firestore object and device
     this.firestore = getFirestore();
     this.isMobile = this.deviceService.isMobile();
+    // Subscription for filtered location names
     this.filteredLocations$ = this.weatherLocationInput.valueChanges.pipe(
         distinctUntilChanged(),
         debounceTime(1000),
@@ -80,8 +87,8 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.filteredLocationNames = locationdata.data.map(
           (location: WeatherAutocompleteLocation) => `${location.name}, ${location.country}`);
       this.autocompleteLoading = false;
-    },
-    );
+    });
+    // Subscribe to filtered locations to see if they need to be cleared
     this.emptyLocations = this.weatherLocationInput.valueChanges.subscribe((name) => {
       if (!name || name.length < 3) {
         this.filteredLocationNames = undefined;

@@ -2,7 +2,8 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { User } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
 import { Firestore, DocumentReference, DocumentData, doc, setDoc, writeBatch,
-  WriteBatch, increment } from '@angular/fire/firestore';
+  WriteBatch, increment, collection, CollectionReference, getDocs,
+  QuerySnapshot } from '@angular/fire/firestore';
 import { getFirestore } from '@firebase/firestore';
 import { from, Observable, retry, Subscription } from 'rxjs';
 import { WeatherType } from './weatherapi.service';
@@ -15,7 +16,7 @@ interface UserMetadata {
   dateJoined: string,
 }
 
-interface WeatherQuery {
+export interface WeatherQuery {
   location: string,
   type: WeatherType,
   dateQueried: number
@@ -95,6 +96,13 @@ export class FirestoreService implements OnInit, OnDestroy {
     batch.set(queryLogRef, weatherQuery);
     // Execute the batch write
     return from(batch.commit()).pipe(retry(3));
+  }
+
+  // Get the previous queries from the user's firestore database
+  getPastQueries(user: User): Observable<QuerySnapshot<DocumentData>> {
+    const queriesCollection: CollectionReference<DocumentData> =
+      collection(this.firestore, 'users', user.uid, 'queries');
+    return from(getDocs(queriesCollection));
   }
 
   ngOnDestroy(): void {

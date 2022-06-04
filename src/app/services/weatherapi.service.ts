@@ -72,7 +72,7 @@ export interface WeatherLocation {
 export interface WeatherCurrentInfo {
   temp_c: number,
   temp_f: number,
-  is_day: boolean,
+  is_day: number,
   condition: WeatherCondition
   wind_mph: number,
   wind_kph: number,
@@ -91,6 +91,9 @@ export interface WeatherCondition {
 
 export interface WeatherForecastResponse {
   location: WeatherLocation,
+  current: {
+    is_day: number;
+  }
   forecast: ForecastDayWrapper
 }
 

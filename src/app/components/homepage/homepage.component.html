@@ -7,7 +7,7 @@
   <mat-drawer
     #drawer
     [mode]="isMobile ? 'over' : 'side'"
-    [opened]="false"
+    [opened]="true"
     ngClass="flex flex-col w-64 md:w-96 px-2 md:px-3 py-2
     bg-sky-100 dark:bg-slate-700 text-black dark:text-white"
   >
@@ -22,15 +22,35 @@
     <!-- Previous requests and prompt to sign in/out -->
     <main
       [ngClass]="[
-        'rounded-lg h-full overflow-y-auto',
+        'rounded-lg h-full',
         user ? 'bg-sky-200 dark:bg-slate-800' : 'bg-gray-200 dark:bg-gray-500'
       ]"
     >
-      <!-- User is signed in, display past requests with Sign Out at bottom -->
-      <div *ngIf="user">
-        User is Signed in!
-        {{ user?.displayName }}
-        <button mat-raised-button (pointerdown)="signOut()">Sign Out</button>
+      <!-- User is signed in, display past queries with Sign Out at bottom -->
+      <div
+        *ngIf="user"
+        ngClass="flex flex-col justify-start items-center h-full w-full gap-y-8 p-3"
+      >
+        <!-- Previous Queries -->
+        <div
+          ngClass="flex flex-col grow gap-y-3 w-full overflow-y-auto
+            border border-yellow-200"
+        >
+          User is Signed in!
+          {{ user?.displayName }}
+          {{ pastQueries }}
+        </div>
+        <!-- Sign Out Button -->
+        <button
+          mat-raised-button
+          color="basic"
+          ngClass="h-20 w-10/12 px-4 bg-cyan-50 dark:bg-slate-700"
+          (click)="signOut()"
+        >
+          <div ngClass="flex flex-row items-center justify-evenly">
+            <div ngClass="text-2xl md:text-4xl font-slogan">Sign Out</div>
+          </div>
+        </button>
       </div>
       <!-- User not signed in, prompt to sign in -->
       <div
@@ -116,8 +136,8 @@
           <mat-hint class="text-black dark:text-white text-center">
             {{
               weatherLocationInput?.errors
-                ? '❌ Enter at least 3 Characters'
-                : '✅ Enter at least 3 Characters'
+                ? '❌ Enter between 3-50 Characters'
+                : '✅ Enter between 3-50 Characters'
             }}
           </mat-hint>
           <mat-autocomplete #auto="matAutocomplete">
