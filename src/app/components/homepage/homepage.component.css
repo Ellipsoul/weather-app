@@ -7,6 +7,10 @@
   :host {
     @apply bg-yellow-100 flex flex-row grow;
   }
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    @apply dark:text-white;
+  }
 }
 
 #toggle-button {
@@ -53,4 +57,18 @@
 /* Larger slide toggle */
 .mat-slide-toggle {
   transform: scale(1.5);
+}
+
+/* Custom input border colors */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: gray !important;
+}
+
+/* Custom input width and padding */
+::ng-deep mat-form-field > * {
+  width: calc(80% - 5vw) !important;
+}
+
+.auto-margin-left {
+  padding-left: 22.5%;
 }

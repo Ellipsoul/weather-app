@@ -57,7 +57,7 @@
 
   <!-- Container with Drawer Toggle Button and Main Page -->
   <mat-drawer-content ngClass="flex flex-row bg-transparent">
-    <!-- Drawer Content -->
+    <!-- Drawer Toggle Area -->
     <aside ngClass="flex flex-col">
       <div ngClass="grow invisible"></div>
       <button
@@ -85,25 +85,34 @@
     <!-- Main Page Content -->
     <section
       ngClass="text-black dark:text-white grow bg-cyan-50 dark:bg-zinc-900
-      flex flex-col justify-start items-center px-2 md:px-4 py-4 md:py-5 lg:py-6 gap-y-3 border border-green-300"
+      flex flex-col justify-start items-center px-2 md:px-4 py-4 md:py-5 lg:py-6 gap-y-3 pr-10"
     >
       <!-- Dynamic Heading -->
       <header ngClass="text-3xl md:text-4xl lg:text-5xl font-weatherheader">
         {{ showForecastWeather ? '7-Day Forecast' : 'Live Weather' }}
       </header>
       <!-- Filter Autocomplete -->
-      <div>{{ autocompleteLoading }}</div>
-      <form>
-        <mat-form-field appearance="outline">
-          <mat-label>Location</mat-label>
+      <form ngClass="w-full">
+        <mat-form-field appearance="outline" ngClass="w-full auto-margin-left">
+          <mat-label class="text-black dark:text-white">
+            Search Location!
+          </mat-label>
           <input
             type="text"
-            placeholder="Search for a location!"
+            placeholder="London"
             aria-label="Location"
             matInput
             [formControl]="weatherLocationInput"
             [matAutocomplete]="auto"
           />
+          <mat-icon matSuffix>search</mat-icon>
+          <mat-hint class="text-black dark:text-white text-center">
+            {{
+              weatherLocationInput?.errors
+                ? '❌ Enter at least 3 Characters'
+                : '✅ Enter at least 3 Characters'
+            }}
+          </mat-hint>
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option
               *ngFor="let option of filteredLocationNames"
@@ -113,7 +122,6 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-        <div *ngIf="weatherLocationInput?.errors">Must be at least 3</div>
       </form>
       <!-- Conditional Weather Result Components -->
       <app-forecast-weather *ngIf="showForecastWeather"></app-forecast-weather>

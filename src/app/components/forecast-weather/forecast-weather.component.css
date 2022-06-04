@@ -5,6 +5,6 @@
 @layer components {
   :host {
     @apply flex flex-row grow w-full;
-    @apply border border-green-200;
+    @apply border-green-200;
   }
 }

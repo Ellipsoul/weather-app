@@ -43,7 +43,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   showForecastWeather: boolean | undefined;
   // Autocomplete input for weather location query
   weatherLocationInput =
-    new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
+    new FormControl('', [Validators.minLength(3), Validators.maxLength(30)]);
   filteredLocations$: Subscription;
   filteredLocationNames: string[] | undefined;
   autocompleteLoading: boolean | undefined;
@@ -72,7 +72,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
         switchMap((name) => this.weatherapiService.getAutoComplete(name)),
     ).subscribe((locationdata: any) => {
       this.filteredLocationNames = locationdata.data.map(
-          (location: WeatherApiLocation) => location.name);
+          (location: WeatherApiLocation) => `${location.name}, ${location.country}`);
       this.autocompleteLoading = false;
     },
     );
