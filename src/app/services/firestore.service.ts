@@ -1,15 +1,24 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { User } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
-import { Firestore, DocumentReference, DocumentData, doc, setDoc } from '@angular/fire/firestore';
+import { Firestore, DocumentReference, DocumentData, doc, setDoc, writeBatch,
+  WriteBatch, increment } from '@angular/fire/firestore';
 import { getFirestore } from '@firebase/firestore';
 import { from, Observable, retry, Subscription } from 'rxjs';
+import { WeatherType } from './weatherapi.service';
 
 // Stores user metadata in the firestore database
 interface UserMetadata {
   username: string,
-  numberOfQueries: number,
+  numberOfLiveQueries: number,
+  numberOfForecastQueries: number,
   dateJoined: string,
+}
+
+interface WeatherQuery {
+  location: string,
+  type: WeatherType,
+  dateQueried: number
 }
 
 @Injectable({
@@ -38,11 +47,54 @@ export class FirestoreService implements OnInit, OnDestroy {
     const docRef:DocumentReference<DocumentData> = doc(this.firestore, 'users', user.uid);
     const data: UserMetadata = {
       username: user.displayName ? user.displayName : 'Anonymous',
-      numberOfQueries: 0,
+      numberOfLiveQueries: 0,
+      numberOfForecastQueries: 0,
       dateJoined: user.metadata.creationTime ?
         user.metadata.creationTime : 'Thu, 01 Jan 1970 00:00:00 UTC',
     };
     return from(setDoc(docRef, data)).pipe(retry(3));
+  }
+
+  // Log a user's successful live weather query
+  logLiveWeatherQuery(user: User, query: string): Observable<void> {
+    // Perform a batch write for query and increment
+    const batch: WriteBatch = writeBatch(this.firestore);
+    const currentDate: number = Date.now();
+    // User meta data increment
+    const userDocRef: DocumentReference<DocumentData> = doc(this.firestore, 'users', user.uid);
+    batch.update(userDocRef, { numberOfLiveQueries: increment(1) });
+    // Query log write
+    const queryLogRef: DocumentReference<DocumentData> =
+      doc(this.firestore, 'users', user.uid, 'queries', currentDate.toString());
+    const weatherQuery: WeatherQuery = {
+      location: query,
+      type: WeatherType.Live,
+      dateQueried: currentDate,
+    };
+    batch.set(queryLogRef, weatherQuery);
+    // Execute the batch write
+    return from(batch.commit()).pipe(retry(3));
+  }
+
+  // Log a user's successful forecast weather query
+  logForecastWeatherQuery(user: User, query: string): Observable<void> {
+    // Perform a batch write for query and increment
+    const batch: WriteBatch = writeBatch(this.firestore);
+    const currentDate: number = Date.now();
+    // User meta data increment
+    const userDocRef: DocumentReference<DocumentData> = doc(this.firestore, 'users', user.uid);
+    batch.update(userDocRef, { numberOfForecastQueries: increment(1) });
+    // Query log write
+    const queryLogRef: DocumentReference<DocumentData> =
+      doc(this.firestore, 'users', user.uid, 'queries', currentDate.toString());
+    const weatherQuery: WeatherQuery = {
+      location: query,
+      type: WeatherType.Forecast,
+      dateQueried: currentDate,
+    };
+    batch.set(queryLogRef, weatherQuery);
+    // Execute the batch write
+    return from(batch.commit()).pipe(retry(3));
   }
 
   ngOnDestroy(): void {

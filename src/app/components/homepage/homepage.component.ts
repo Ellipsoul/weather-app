@@ -17,6 +17,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { WeatherapiService, WeatherAutocompleteLocation,
   WeatherType, WeatherLiveResponse, WeatherForecastResponse,
 } from 'src/app/services/weatherapi.service';
+import { AxiosResponse } from 'axios';
 
 @Component({
   selector: 'app-homepage',
@@ -165,10 +166,13 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.showForecastWeather ? WeatherType.Forecast : WeatherType.Live;
     if (weatherType === WeatherType.Live) {
       this.weatherapiService.getLiveWeather(this.weatherLocationInput.value).subscribe({
-        next: (weatherData: any) => {
-          this.weatherLocationInput.reset();
+        next: (weatherData: AxiosResponse<WeatherLiveResponse>) => {
           this.liveWeatherData = weatherData.data;
-          console.log(this.liveWeatherData);
+          // If the user is logged in, save the weather data to their profile
+          if (this.user) {
+            this.firestoreService.logLiveWeatherQuery(this.user, this.weatherLocationInput.value);
+            this.weatherLocationInput.reset();
+          }
         },
         error: (error: Error) => {
           this.toaster.error('Failed to live weather', 'Error!');
@@ -177,10 +181,14 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     } else {
       this.weatherapiService.getForecastWeather(this.weatherLocationInput.value).subscribe({
-        next: (weatherData: any) => {
-          this.weatherLocationInput.reset();
+        next: (weatherData: AxiosResponse<WeatherForecastResponse>) => {
           this.forecastWeatherData = weatherData.data;
-          console.log(this.forecastWeatherData);
+          // If the user is logged in, save the weather data to their profile
+          if (this.user) {
+            this.firestoreService.logForecastWeatherQuery(
+                this.user, this.weatherLocationInput.value);
+          };
+          this.weatherLocationInput.reset();
         },
         error: (error: Error) => {
           this.toaster.error('Failed to forecast weather', 'Error!');
