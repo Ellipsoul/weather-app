@@ -98,6 +98,11 @@ export class FirestoreService implements OnInit, OnDestroy {
     return from(getDocs(queriesCollection));
   }
 
+  getUserDocRef(user: User | null): DocumentReference<DocumentData> | void {
+    if (!user) return;
+    return doc(this.firestore, 'users', user.uid);
+  }
+
   ngOnDestroy(): void {
     this.userSubscription?.unsubscribe();
   }
