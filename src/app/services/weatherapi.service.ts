@@ -19,7 +19,6 @@ export class WeatherapiService {
 
   // Retrieves query autocomplete options from the API
   getAutoComplete(query: string): AxiosObservable<WeatherApiLocation[]> {
-    console.log(query);
     return Axios.get(
         'https://api.weatherapi.com/v1/search.json',
         {

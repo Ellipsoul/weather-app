@@ -45,6 +45,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   weatherLocationInput =
     new FormControl('', [Validators.minLength(3), Validators.maxLength(30)]);
   filteredLocations$: Subscription;
+  emptyLocations: Subscription;
   filteredLocationNames: string[] | undefined;
   autocompleteLoading: boolean | undefined;
 
@@ -76,6 +77,11 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.autocompleteLoading = false;
     },
     );
+    this.emptyLocations = this.weatherLocationInput.valueChanges.subscribe((name) => {
+      if (name.length < 3) {
+        this.filteredLocationNames = undefined;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -153,5 +159,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userSubscription?.unsubscribe();
     this.drawerStatusSubscription?.unsubscribe();
     this.drawerClosingSubscription?.unsubscribe();
+    this.emptyLocations?.unsubscribe();
+    this.filteredLocations$?.unsubscribe();
   }
 }
