@@ -201,6 +201,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     } else { // Forecast weather
       this.weatherapiService.getForecastWeather(this.weatherLocationInput.value).subscribe({
         next: (weatherData: AxiosResponse<WeatherForecastResponse>) => {
+          console.log(weatherData.data);
           this.forecastWeatherData = weatherData.data;
           // If the user is logged in, save the weather data to their profile
           if (this.user) {

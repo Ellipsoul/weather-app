@@ -8,7 +8,7 @@
     #drawer
     [mode]="isMobile ? 'over' : 'side'"
     [opened]="true"
-    ngClass="flex flex-col w-64 md:w-96 px-2 md:px-3 py-2
+    ngClass="flex flex-col w-72 md:w-96 px-2 md:px-3 py-2
     bg-sky-100 dark:bg-slate-700 text-black dark:text-white"
   >
     <!-- Past Queries Header -->
@@ -171,7 +171,10 @@
         </mat-form-field>
       </form>
       <!-- Conditional Weather Result Components -->
-      <app-forecast-weather *ngIf="showForecastWeather"></app-forecast-weather>
+      <app-forecast-weather
+        *ngIf="showForecastWeather"
+        [forecastWeatherData]="forecastWeatherData"
+      ></app-forecast-weather>
       <app-live-weather
         *ngIf="!showForecastWeather"
         [liveWeatherData]="liveWeatherData"
