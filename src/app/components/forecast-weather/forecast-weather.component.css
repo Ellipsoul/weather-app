@@ -4,7 +4,6 @@
 
 @layer components {
   :host {
-    @apply flex flex-row grow w-full h-64 overflow-y-scroll;
-    @apply border border-green-200;
+    @apply h-full w-full grow;
   }
 }
