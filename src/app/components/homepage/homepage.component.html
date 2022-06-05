@@ -182,6 +182,7 @@
       >
         <div>Live Weather</div>
         <mat-slide-toggle
+          #slideToggle
           (change)="toggleWeatherView($event)"
           [(ngModel)]="showForecastWeather"
         ></mat-slide-toggle>

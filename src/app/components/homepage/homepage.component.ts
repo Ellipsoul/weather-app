@@ -20,6 +20,7 @@ import { WeatherapiService, WeatherAutocompleteLocation,
 import { AxiosResponse } from 'axios';
 import { PastqueriesService } from 'src/app/services/pastqueries.service';
 import { WeatherdataService } from 'src/app/services/weatherdata.service';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-homepage',
@@ -55,6 +56,8 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   // Past weather queries by user
   pastQueries: WeatherQuery[] = [];
   pastQueriesSubscription: Subscription | undefined;
+  // Control state of the slide toggle
+  @ViewChild('slideToggle') slideToggle: MatSlideToggle | undefined;
 
   constructor(
     private themeService: ThemeService,
@@ -177,54 +180,74 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.showForecastWeather ? WeatherType.Forecast : WeatherType.Live;
     // Live weather
     if (weatherType === WeatherType.Live) {
-      this.weatherapiService.getLiveWeather(this.weatherLocationInput.value).subscribe({
-        next: (weatherData: AxiosResponse<WeatherLiveResponse>) => {
-          this.weatherdataService.setLiveWeatherData(weatherData.data);
-          // If the user is logged in, save the weather data to their profile
-          if (this.user) {
-            const weatherQuery: WeatherQuery = {
-              location: this.weatherLocationInput.value,
-              type: WeatherType.Live,
-              dateQueried: Date.now(),
-            };
-            this.firestoreService.logLiveWeatherQuery(this.user, weatherQuery);
-            this.pastqueriesService.appendQuery(weatherQuery);
-            this.weatherLocationInput.reset();
-          }
-        },
-        error: (error: Error) => {
-          this.toaster.error('Failed to live weather', 'Error!');
-          console.log(error);
-        },
-      });
+      this.getLiveWeather(this.weatherLocationInput.value);
     } else { // Forecast weather
-      this.weatherapiService.getForecastWeather(this.weatherLocationInput.value).subscribe({
-        next: (weatherData: AxiosResponse<WeatherForecastResponse>) => {
-          this.weatherdataService.setForecastWeatherData(weatherData.data);
-          // If the user is logged in, save the weather data to their profile
-          if (this.user) {
-            const weatherQuery: WeatherQuery = {
-              location: this.weatherLocationInput.value,
-              type: WeatherType.Forecast,
-              dateQueried: Date.now(),
-            };
-            this.firestoreService.logForecastWeatherQuery(
-                this.user, weatherQuery);
-            this.pastqueriesService.appendQuery(weatherQuery);
-          };
-          this.weatherLocationInput.reset();
-        },
-        error: (error: Error) => {
-          this.toaster.error('Failed to forecast weather', 'Error!');
-          console.log(error);
-        },
-      });
+      this.getForecastWeather(this.weatherLocationInput.value);
     }
+  }
+
+  // Get live weather
+  private getLiveWeather(weatherLocation: string): void {
+    this.weatherapiService.getLiveWeather(weatherLocation).subscribe({
+      next: (weatherData: AxiosResponse<WeatherLiveResponse>) => {
+        this.weatherdataService.setLiveWeatherData(weatherData.data);
+        // If the user is logged in, save the weather data to their profile
+        if (this.user) {
+          const weatherQuery: WeatherQuery = {
+            location: weatherLocation,
+            type: WeatherType.Live,
+            dateQueried: Date.now(),
+          };
+          this.firestoreService.logLiveWeatherQuery(this.user, weatherQuery);
+          this.pastqueriesService.appendQuery(weatherQuery);
+          this.weatherLocationInput.reset();
+        }
+      },
+      error: (error: Error) => {
+        this.toaster.error('Failed to live weather', 'Error!');
+        console.log(error);
+      },
+    });
+  }
+
+  // Get forecast weather
+  private getForecastWeather(weatherLocation: string): void {
+    this.weatherapiService.getForecastWeather(weatherLocation).subscribe({
+      next: (weatherData: AxiosResponse<WeatherForecastResponse>) => {
+        this.weatherdataService.setForecastWeatherData(weatherData.data);
+        // If the user is logged in, save the weather data to their profile
+        if (this.user) {
+          const weatherQuery: WeatherQuery = {
+            location: weatherLocation,
+            type: WeatherType.Forecast,
+            dateQueried: Date.now(),
+          };
+          this.firestoreService.logForecastWeatherQuery(
+              this.user, weatherQuery);
+          this.pastqueriesService.appendQuery(weatherQuery);
+        };
+        this.weatherLocationInput.reset();
+      },
+      error: (error: Error) => {
+        this.toaster.error('Failed to forecast weather', 'Error!');
+        console.log(error);
+      },
+    });
   }
 
   // Execute a new weather query from historical query
   executePastQuery(pastQuery: WeatherQuery): void {
-    console.log(pastQuery);
+    // Slide the toggle to the right direction
+    if (
+      (this.slideToggle!.checked && pastQuery.type === WeatherType.Live) ||
+      (!this.slideToggle!.checked && pastQuery.type === WeatherType.Forecast)) {
+        this.slideToggle!.toggle();
+    }
+    if (pastQuery.type === WeatherType.Live) {
+      this.getLiveWeather(pastQuery.location);
+    } else {
+      this.getForecastWeather(pastQuery.location);
+    }
   }
 
   // Call past queries service to delete all queries
