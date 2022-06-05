@@ -172,13 +172,9 @@
       </form>
       <!-- Conditional Weather Result Components -->
       <app-forecast-weather
-        *ngIf="showForecastWeather"
-        [forecastWeatherData]="forecastWeatherData"
+        [hidden]="!showForecastWeather"
       ></app-forecast-weather>
-      <app-live-weather
-        *ngIf="!showForecastWeather"
-        [liveWeatherData]="liveWeatherData"
-      ></app-live-weather>
+      <app-live-weather [hidden]="showForecastWeather"></app-live-weather>
       <!-- Slider  -->
       <footer
         ngClass="flex flex-row justify-center items-center w-full border border-transparent text-center

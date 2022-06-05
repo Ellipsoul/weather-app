@@ -8,7 +8,9 @@ export class ThemeService {
   // Initialize theme event emitter
   @Output() themeEvent = new EventEmitter<string>();
 
-  constructor() {}
+  constructor() {
+    this.themeEvent.emit(this.getTheme());
+  }
 
   // Managing theme in local storage
   private setTheme(theme: string): void {

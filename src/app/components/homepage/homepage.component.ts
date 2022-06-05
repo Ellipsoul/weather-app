@@ -19,6 +19,7 @@ import { WeatherapiService, WeatherAutocompleteLocation,
 } from 'src/app/services/weatherapi.service';
 import { AxiosResponse } from 'axios';
 import { PastqueriesService } from 'src/app/services/pastqueries.service';
+import { WeatherdataService } from 'src/app/services/weatherdata.service';
 
 @Component({
   selector: 'app-homepage',
@@ -51,9 +52,6 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   emptyLocations: Subscription;
   filteredLocationNames: string[] | undefined;
   autocompleteLoading: boolean | undefined;
-  // Weather data to be passed to children
-  liveWeatherData: WeatherLiveResponse | undefined;
-  forecastWeatherData: WeatherForecastResponse | undefined;
   // Past weather queries by user
   pastQueries: WeatherQuery[] = [];
   pastQueriesSubscription: Subscription | undefined;
@@ -67,6 +65,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     private ngZone: NgZone,
     private weatherapiService: WeatherapiService,
     private pastqueriesService: PastqueriesService,
+    private weatherdataService: WeatherdataService,
   ) {
     this.autocompleteLoading = false;
     // Retrieve initial theme value from theme service
@@ -180,7 +179,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     if (weatherType === WeatherType.Live) {
       this.weatherapiService.getLiveWeather(this.weatherLocationInput.value).subscribe({
         next: (weatherData: AxiosResponse<WeatherLiveResponse>) => {
-          this.liveWeatherData = weatherData.data;
+          this.weatherdataService.setLiveWeatherData(weatherData.data);
           // If the user is logged in, save the weather data to their profile
           if (this.user) {
             const weatherQuery: WeatherQuery = {
@@ -201,8 +200,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     } else { // Forecast weather
       this.weatherapiService.getForecastWeather(this.weatherLocationInput.value).subscribe({
         next: (weatherData: AxiosResponse<WeatherForecastResponse>) => {
-          console.log(weatherData.data);
-          this.forecastWeatherData = weatherData.data;
+          this.weatherdataService.setForecastWeatherData(weatherData.data);
           // If the user is logged in, save the weather data to their profile
           if (this.user) {
             const weatherQuery: WeatherQuery = {
