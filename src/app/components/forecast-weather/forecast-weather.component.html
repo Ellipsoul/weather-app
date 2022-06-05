@@ -1,6 +1,41 @@
+<!-- Weather data has been loaded -->
 <div
-  ngClass="flex flex-col grow h-96 w-full overflow-y-scroll
-  p-2 gap-y-2 md:gap-y-4 border border-green-200"
+  *ngIf="forecastWeatherData"
+  ngClass="flex flex-col grow h-96 w-full overflow-y-auto p-2 gap-y-4 md:gap-y-8 rounded-xl bg-cover bg-no-repeat"
 >
-  {{ forecastWeatherData | json }}
+  <!-- Header with location, time and unit system toggle -->
+  <header
+    ngClass="
+    flex flex-row justify-evenly items-center gap-x-8 gap-y-2
+    font-slogan text-xl md:text-2xl lg:text-3xl text-center flex-wrap"
+  >
+    <span>{{ forecastWeatherData.location.localtime | date: 'HH:mm' }}</span>
+    <span>{{ locationString }}</span>
+    <mat-button-toggle-group
+      (valueChange)="toggleUnitSystem($event)"
+      #toggleGroup
+      [multiple]="false"
+      name="unitSystem"
+      ngClass="text-sm md:text-base"
+      aria-label="Unit System"
+      [value]="unitSystem"
+    >
+      <mat-button-toggle value="metric">Metric</mat-button-toggle>
+      <mat-button-toggle value="imperial">Imperial</mat-button-toggle>
+    </mat-button-toggle-group>
+  </header>
+  <!-- Main component, divided into 2 sides of information -->
+  <main
+    ngClass="flex flex-row gap-x-3 gap-y-3 justify-evenly items-center flex-wrap"
+  ></main>
+</div>
+
+<!-- Data not loaded yet, prompt user to enter a query -->
+<div
+  *ngIf="!forecastWeatherData"
+  ngClass="flex flex-col grow h-full w-full overflow-y-auto p-2
+  justify-center items-center font-weatherheader text-center break-words
+  text-3xl sm:text-4xl md:text-5xl"
+>
+  ⬆ Make a Query Above ⬆ 😇
 </div>
