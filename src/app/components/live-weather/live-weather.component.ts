@@ -43,6 +43,7 @@ export class LiveWeatherComponent implements OnDestroy {
     this.liveWeatherDataSubscription.unsubscribe();
   }
 
+  // Switch between metric and imperial units
   toggleUnitSystem($event: string): void {
     this.unitSystem = $event as UnitSystem;
     localStorage.setItem('unitSystem', $event);
@@ -64,7 +65,6 @@ export class LiveWeatherComponent implements OnDestroy {
       this.weatherBackground = dayWeatherTypeMap[weatherCode];
     } else {
       this.weatherBackground = nightWeatherTypeMap[weatherCode];
-      console.log(this.weatherBackground);
     }
   }
 }
