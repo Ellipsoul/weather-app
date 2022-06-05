@@ -30,4 +30,16 @@ export class ThemeService {
     this.getTheme() === 'light' ? this.setTheme('dark') : this.setTheme('light');
     this.themeEvent.emit(this.getTheme());
   }
+
+  // Set to light theme and emit theme event to subscribed components
+  setLightTheme(): void {
+    this.setTheme('light');
+    this.themeEvent.emit(this.getTheme());
+  }
+
+  // Set to dark theme and emit theme event to subscribed components
+  setDarkTheme(): void {
+    this.setTheme('dark');
+    this.themeEvent.emit(this.getTheme());
+  }
 }

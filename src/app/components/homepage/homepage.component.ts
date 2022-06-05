@@ -190,7 +190,15 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   private getLiveWeather(weatherLocation: string): void {
     this.weatherapiService.getLiveWeather(weatherLocation).subscribe({
       next: (weatherData: AxiosResponse<WeatherLiveResponse>) => {
+        // Send weather data to the service
         this.weatherdataService.setLiveWeatherData(weatherData.data);
+        // Set the theme based on whether it is daytime
+        const isDay: number = weatherData.data.current.is_day;
+        if (isDay === 1) {
+          this.themeService.setLightTheme();
+        } else {
+          this.themeService.setDarkTheme();
+        }
         // If the user is logged in, save the weather data to their profile
         if (this.user) {
           const weatherQuery: WeatherQuery = {
@@ -215,6 +223,13 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.weatherapiService.getForecastWeather(weatherLocation).subscribe({
       next: (weatherData: AxiosResponse<WeatherForecastResponse>) => {
         this.weatherdataService.setForecastWeatherData(weatherData.data);
+        // Set the theme based on whether it is daytime
+        const isDay: number = weatherData.data.current.is_day;
+        if (isDay === 1) {
+          this.themeService.setLightTheme();
+        } else {
+          this.themeService.setDarkTheme();
+        }
         // If the user is logged in, save the weather data to their profile
         if (this.user) {
           const weatherQuery: WeatherQuery = {

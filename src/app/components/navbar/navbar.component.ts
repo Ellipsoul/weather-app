@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   // Inform user if not logged in
   checkAuthentication(): void {
     if (this.user) return;
-    this.toaster.error('Please sign in to view your profile', 'Error');
+    this.toaster.error('Please sign in to view your profile', 'Oops!');
   }
 
   // Unsubscribe from the theme service when the component is destroyed
