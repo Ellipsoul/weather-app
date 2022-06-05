@@ -79,7 +79,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     // Subscription for filtered location names
     this.filteredLocations$ = this.weatherLocationInput.valueChanges.pipe(
         distinctUntilChanged(),
-        debounceTime(1000),
+        debounceTime(500),
         filter((name) => name && name.length > 2),
         tap(() => {
           this.autocompleteLoading = true;
