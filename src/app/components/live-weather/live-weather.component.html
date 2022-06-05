@@ -9,7 +9,7 @@
   <!-- Header with location, time and unit system toggle -->
   <header
     ngClass="
-    flex flex-row justify-evenly items-center gap-x-8 gap-y-2 pt-3
+    flex flex-col md:flex-row justify-evenly items-center gap-x-8 gap-y-2 pt-3
     font-slogan text-xl md:text-2xl lg:text-3xl text-center flex-wrap"
   >
     <span>{{ liveWeatherData.location.localtime | date: 'HH:mm' }}</span>
