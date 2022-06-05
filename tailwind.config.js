@@ -22,7 +22,7 @@ module.exports = {
       weatherdescription: ['Armata', 'sans-serif'],
     },
     backgroundImage: {
-      test: "url('./assets/weather_images/test.png')",
+      sunnyDay: "url('./assets/weather_images/sunny_day.png')",
     },
     extend: {
       spacing: {
