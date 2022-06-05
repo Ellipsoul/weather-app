@@ -17,6 +17,8 @@ module.exports = {
       weatherheader: ['Rhodium Libre', 'sans-serif'],
       name: ['Rye', 'serif'],
       stats: ['Roboto_Slab', 'serif'],
+      temperature: ['Angkor', 'serif'],
+      weatherdescription: ['Armata', 'sans-serif'],
     },
     extend: {
       spacing: {
