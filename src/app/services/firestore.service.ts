@@ -3,7 +3,9 @@ import { User } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
 import { Firestore, DocumentReference, DocumentData, doc, setDoc, writeBatch,
   WriteBatch, increment, collection, CollectionReference, getDocs,
-  QuerySnapshot } from '@angular/fire/firestore';
+  QuerySnapshot,
+  QueryDocumentSnapshot,
+  deleteDoc} from '@angular/fire/firestore';
 import { getFirestore } from '@firebase/firestore';
 import { from, Observable, retry, Subscription } from 'rxjs';
 import { WeatherType } from './weatherapi.service';
@@ -102,6 +104,16 @@ export class FirestoreService implements OnInit, OnDestroy {
   getUserDocRef(user: User | null): DocumentReference<DocumentData> | void {
     if (!user) return;
     return doc(this.firestore, 'users', user.uid);
+  }
+
+  // Clear all the documents from the user's query collection
+  async clearQueriesFromFirestore(user: User): Promise<void> {
+    const queriesCollection: CollectionReference<DocumentData> =
+      collection(this.firestore, 'users', user.uid, 'queries');
+    const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(queriesCollection);
+    querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
+      deleteDoc(doc.ref);
+    });
   }
 
   ngOnDestroy(): void {

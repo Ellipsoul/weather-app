@@ -1,6 +1,7 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { User } from '@angular/fire/auth';
 import { QuerySnapshot } from '@angular/fire/firestore';
+import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { AuthService } from './auth.service';
 import { FirestoreService, WeatherQuery } from './firestore.service';
@@ -16,7 +17,8 @@ export class PastqueriesService implements OnDestroy {
   constructor(
     private firestoreService: FirestoreService,
     private authService: AuthService,
-    private ngZone: NgZone) {
+    private ngZone: NgZone,
+    private toaster: ToastrService) {
     // Initialise past queries
     this.pastQueries = new BehaviorSubject<WeatherQuery[]>([]);
     // Subscribe to the current user object and query past queries when object is available
@@ -60,6 +62,17 @@ export class PastqueriesService implements OnDestroy {
       return b.dateQueried - a.dateQueried;
     });
     this.pastQueries.next(sortedQueries);
+  }
+
+  // Call firestore service to clear all past queries
+  emptyQueries(user: User): void {
+    this.firestoreService.clearQueriesFromFirestore(user).then(() => {
+      this.pastQueries.next([]);
+      this.toaster.success('Past queries cleared', 'Success!');
+    }).catch((error) => {
+      this.toaster.error('Failed to delete past queries', 'Error');
+      console.log(error);
+    });
   }
 
   ngOnDestroy(): void {

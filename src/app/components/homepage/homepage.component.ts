@@ -223,8 +223,15 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  // Execute a new weather query from historical query
   executePastQuery(pastQuery: WeatherQuery): void {
     console.log(pastQuery);
+  }
+
+  // Call past queries service to delete all queries
+  deletePastQueries(): void {
+    if (!confirm('Are you sure you want to clear your query history?')) return;
+    this.pastqueriesService.emptyQueries(this.user!);
   }
 
   // Unsubscribe from the theme service when the component is destroyed
