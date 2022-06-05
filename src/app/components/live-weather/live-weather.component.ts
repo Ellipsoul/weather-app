@@ -18,6 +18,7 @@ export class LiveWeatherComponent implements OnDestroy {
   locationString: string | undefined;
   temperature: string | undefined;
   wind: number | undefined;
+  windDirection : string | undefined;
   precipitation: number | undefined;
   weatherBackground: string | undefined;
   // Keep track of metric or imperial units to display
@@ -58,6 +59,39 @@ export class LiveWeatherComponent implements OnDestroy {
       `${this.liveWeatherData!.current.temp_c} °C` : `${this.liveWeatherData!.current.temp_f} °F`;
     this.wind = this.unitSystem === UnitSystem.Metric ?
       this.liveWeatherData!.current.wind_kph : this.liveWeatherData!.current.wind_mph;
+    // Show a wind direction symbol
+    let windDirectionSymbol: string;
+    const wd: number = this.liveWeatherData!.current.wind_degree;
+    switch (true) {
+      case ((337.5 <= wd && wd < 360) || (0 <= wd && wd < 22.5)):
+        windDirectionSymbol = '↑';
+        break;
+      case (22.5 <= wd && wd < 67.5):
+        windDirectionSymbol = '↗';
+        break;
+      case (67.5 <= wd && wd < 112.5):
+        windDirectionSymbol = '→';
+        break;
+      case (112.5 <= wd && wd < 157.5):
+        windDirectionSymbol = '↘';
+        break;
+      case (157.5 <= wd && wd < 202.5):
+        windDirectionSymbol = '↓';
+        break;
+      case (202.5 <= wd && wd < 247.5):
+        windDirectionSymbol = '↙';
+        break;
+      case (247.5 <= wd && wd < 292.5):
+        windDirectionSymbol = '←';
+        break;
+      case (292.5 <= wd && wd < 337.5):
+        windDirectionSymbol = '↖';
+        break;
+      default:
+        windDirectionSymbol = '↑';
+        break;
+    }
+    this.windDirection = `${windDirectionSymbol} ${this.liveWeatherData!.current.wind_degree}°`;
     this.precipitation = this.unitSystem === UnitSystem.Metric ?
       this.liveWeatherData!.current.precip_mm : this.liveWeatherData!.current.precip_in;
     const weatherCode: string = this.liveWeatherData!.current.condition.code.toString();
