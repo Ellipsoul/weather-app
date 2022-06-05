@@ -37,7 +37,7 @@
         >
           <div *ngFor="let pastQuery of pastQueries" ngClass="w-full gap-y-2">
             <button
-              (pointerdown)="executePastQuery(pastQuery)"
+              (click)="executePastQuery(pastQuery)"
               ngClass="w-full p-2 flex flex-row justify-between items-center break-normal font-title text-xl
               gap-x-6 bg-amber-50 hover:bg-amber-100 dark:bg-zinc-700 hover:dark:bg-zinc-800 rounded-lg"
             >
@@ -46,7 +46,7 @@
             </button>
           </div>
           <button
-            (pointerdown)="deletePastQueries()"
+            (click)="deletePastQueries()"
             *ngIf="pastQueries.length !== 0"
             ngClass="w-full p-2 break-normal font-serif font-semibold text-xl mt-2 text-center text-white
               bg-red-600 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-800 rounded-lg"
@@ -91,9 +91,7 @@
   </mat-drawer>
 
   <!-- Container with Drawer Toggle Button and Main Page -->
-  <mat-drawer-content
-    ngClass="flex flex-row bg-transparent h-full border border-green-100"
-  >
+  <mat-drawer-content ngClass="flex flex-row bg-transparent h-full">
     <!-- Drawer Toggle Area -->
     <aside ngClass="flex flex-col h-full">
       <div ngClass="grow invisible"></div>
