@@ -2,7 +2,7 @@
 <div
   *ngIf="liveWeatherData"
   ngClass="flex flex-col grow h-96 w-full overflow-y-auto
-  p-2 gap-y-4 md:gap-y-8 rounded-xl bg-sunnyDay bg-cover bg-no-repeat"
+  p-2 gap-y-4 md:gap-y-8 rounded-xl bg-stormyNight bg-cover bg-no-repeat"
 >
   <!-- Header with location, time and unit system toggle -->
   <header
@@ -69,7 +69,7 @@
       <!-- Humidity -->
       <div id="weather-kv-container">
         <div id="weather-key">Humidity</div>
-        <div id="weather-value">{{ liveWeatherData.current.humidity }}</div>
+        <div id="weather-value">{{ liveWeatherData.current.humidity }}%</div>
       </div>
     </div>
   </main>

@@ -23,6 +23,17 @@ module.exports = {
     },
     backgroundImage: {
       sunnyDay: "url('./assets/weather_images/sunny_day.png')",
+      sunnyNight: "url('./assets/weather_images/sunny_night.png')",
+      cloudyDay: "url('./assets/weather_images/cloudy_day.png')",
+      cloudyNight: "url('./assets/weather_images/cloudy_night.png')",
+      rainyDay: "url('./assets/weather_images/rainy_day.png')",
+      rainyNight: "url('./assets/weather_images/rainy_night.png')",
+      mistyDay: "url('./assets/weather_images/misty_day.png')",
+      mistyNight: "url('./assets/weather_images/misty_night.png')",
+      snowyDay: "url('./assets/weather_images/snowy_day.png')",
+      snowyNight: "url('./assets/weather_images/snowy_night.png')",
+      stormyDay: "url('./assets/weather_images/stormy_day.png')",
+      stormyNight: "url('./assets/weather_images/stormy_night.png')",
     },
     extend: {
       spacing: {
