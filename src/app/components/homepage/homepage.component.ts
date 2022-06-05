@@ -185,7 +185,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
           if (this.user) {
             const weatherQuery: WeatherQuery = {
               location: this.weatherLocationInput.value,
-              type: WeatherType.Forecast,
+              type: WeatherType.Live,
               dateQueried: Date.now(),
             };
             this.firestoreService.logLiveWeatherQuery(this.user, weatherQuery);
