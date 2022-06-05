@@ -3,4 +3,8 @@
 @tailwind components;
 
 @layer components {
+  :host {
+    @apply grow flex flex-col p-8 justify-start items-center;
+    @apply bg-zinc-200 dark:bg-slate-700 gap-y-2 md:gap-y-4 lg:gap-y-6;
+  }
 }

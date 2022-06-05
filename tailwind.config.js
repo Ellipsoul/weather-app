@@ -15,6 +15,8 @@ module.exports = {
       heading: ['Alike Angular', 'serif'],
       toggle: ['Share Tech', 'sans-serif'],
       weatherheader: ['Rhodium Libre', 'sans-serif'],
+      name: ['Rye', 'serif'],
+      stats: ['Roboto_Slab', 'serif'],
     },
     extend: {
       spacing: {

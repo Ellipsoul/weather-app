@@ -4,6 +4,7 @@ import { onSnapshot } from '@firebase/firestore';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import { ThemeService } from 'src/app/services/theme.service';
 
 interface ProfileInfo {
   username: string,
@@ -26,10 +27,13 @@ export class ProfileComponent implements OnInit {
     numberOfForecastQueries: 0,
     dateJoined: 'Thu, 01 Jan 1970 00:00:00 UTC',
   };
+  currentTheme: string;
+
   constructor(
     private authService: AuthService,
     private ngZone: NgZone,
     private firestoreService: FirestoreService,
+    private themeService: ThemeService,
   ) {
     // Subscribe to user object and load in profile info once object is available
     this.userSubscription = this.authService.user$.subscribe((user: User | null) => {
@@ -40,6 +44,9 @@ export class ProfileComponent implements OnInit {
         });
       });
     });
+    // Set initial theme and subscribe to changes in theme
+    this.currentTheme = this.themeService.getTheme();
+    this.themeService.themeEvent.subscribe((theme: string) => this.currentTheme = theme);
   }
 
   ngOnInit(): void {

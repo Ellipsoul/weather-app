@@ -1,6 +1,46 @@
-<div ngClass="flex flex-col gap-y-3 justify-center items-center">
-  <p>{{ profileInfo?.numberOfForecastQueries }}</p>
-  <p>{{ profileInfo?.numberOfForecastQueries }}</p>
-  <p>{{ profileInfo?.username }}</p>
-  <p>{{ profileInfo?.dateJoined }}</p>
-</div>
+<main
+  ngClass="grow flex flex-col justify-center items-center
+  gap-y-16 md:gap-y-14 lg:gap-y-12 w-full mobile:10/12 sm:w-9/12 md:w-7/12 lg:w-6/12"
+>
+  <!-- Profile name and generic picture -->
+  <section
+    ngClass="w-full flex flex-col justify-start items-center
+     text-black dark:text-white gap-y-4 md:gap-y-6 lg:gap-y-8"
+  >
+    <img
+      [src]="
+        currentTheme === 'light'
+          ? '../../../assets/generic_profile_lightmode.png'
+          : '../../../assets/generic_profile_darkmode.png'
+      "
+      ngClass="w-36 md:w-48 lg:w-64"
+    />
+    <div
+      ngClass="font-name text-5xl md:text-6xl leading-tight tracking-wide text-center"
+    >
+      {{ profileInfo?.username ? profileInfo?.username : 'Anonymous User' }}
+    </div>
+  </section>
+  <section
+    ngClass="w-full grow flex flex-col justify-start items-center
+    gap-y-5 text-black dark:text-white
+    text-2xl sm:text-3xl"
+  >
+    <div ngClass="flex flex-row justify-between w-full font-slogan">
+      <span>Date Joined:</span>
+      <span ngClass="text-right">
+        {{ profileInfo?.dateJoined | date: 'd MMMM YYYY' }}
+      </span>
+    </div>
+    <div ngClass="flex flex-row justify-between w-full font-slogan">
+      <span>Forecast Queries Made:</span>
+      <span ngClass="text-right">{{ profileInfo?.numberOfLiveQueries }}</span>
+    </div>
+    <div ngClass="flex flex-row justify-between w-full font-slogan">
+      <span>Live Queries Made:</span>
+      <span ngClass="text-right">{{
+        profileInfo?.numberOfForecastQueries
+      }}</span>
+    </div>
+  </section>
+</main>

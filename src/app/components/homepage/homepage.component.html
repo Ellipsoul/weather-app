@@ -32,10 +32,7 @@
         ngClass="flex flex-col justify-start items-center h-full w-full gap-y-8 p-3"
       >
         <!-- Previous Queries -->
-        <div
-          ngClass="flex flex-col grow gap-y-3 w-full overflow-y-auto
-            border border-yellow-200 h-64"
-        >
+        <div ngClass="flex flex-col grow gap-y-3 w-full overflow-y-auto h-64">
           <div *ngFor="let pastQuery of pastQueries">
             <span>{{ pastQuery.location }}</span>
             <span>{{ pastQuery.type }}</span>
