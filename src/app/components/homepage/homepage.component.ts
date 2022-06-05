@@ -223,6 +223,10 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  executePastQuery(pastQuery: WeatherQuery): void {
+    console.log(pastQuery);
+  }
+
   // Unsubscribe from the theme service when the component is destroyed
   ngOnDestroy(): void {
     this.userSubscription?.unsubscribe();

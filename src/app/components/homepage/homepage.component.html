@@ -32,12 +32,26 @@
         ngClass="flex flex-col justify-start items-center h-full w-full gap-y-8 p-3"
       >
         <!-- Previous Queries -->
-        <div ngClass="flex flex-col grow gap-y-3 w-full overflow-y-auto h-64">
-          <div *ngFor="let pastQuery of pastQueries">
-            <span>{{ pastQuery.location }}</span>
-            <span>{{ pastQuery.type }}</span>
+        <div
+          ngClass="grow flex flex-col gap-y-1 w-full justify-start items-center overflow-y-auto h-64 pl-1 pr-3"
+        >
+          <div *ngFor="let pastQuery of pastQueries" ngClass="w-full gap-y-2">
+            <button
+              (pointerdown)="executePastQuery(pastQuery)"
+              ngClass="w-full p-2 flex flex-row justify-between items-center break-normal font-title text-xl
+              gap-x-6 bg-amber-50 hover:bg-amber-100 dark:bg-zinc-700 hover:dark:bg-zinc-800 rounded-lg"
+            >
+              <div ngClass="text-left">{{ pastQuery.location }}</div>
+              <div ngClass="text-right">{{ pastQuery.type }}</div>
+            </button>
           </div>
-          {{ user?.displayName }}
+          <button
+            *ngIf="pastQueries.length !== 0"
+            ngClass="w-full p-2 break-normal font-serif font-semibold text-xl mt-2 text-center text-white
+              bg-red-600 hover:bg-red-500 dark:bg-red-700 dark:hover:bg-red-800 rounded-lg"
+          >
+            Clear History
+          </button>
         </div>
         <!-- Sign Out Button -->
         <button
