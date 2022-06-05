@@ -1,8 +1,10 @@
 <!-- Weather data has been loaded -->
 <div
   *ngIf="liveWeatherData"
-  ngClass="flex flex-col grow h-96 w-full overflow-y-auto
-  p-2 gap-y-4 md:gap-y-8 rounded-xl bg-stormyNight bg-cover bg-no-repeat"
+  [ngClass]="[
+    'flex flex-col grow h-96 w-full overflow-y-auto p-2 gap-y-4 md:gap-y-8 rounded-xl bg-cover bg-no-repeat',
+    weatherBackground
+  ]"
 >
   <!-- Header with location, time and unit system toggle -->
   <header

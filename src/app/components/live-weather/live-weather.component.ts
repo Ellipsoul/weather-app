@@ -2,6 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WeatherLiveResponse } from 'src/app/services/weatherapi.service';
 import { WeatherdataService } from 'src/app/services/weatherdata.service';
+import { dayWeatherTypeMap, nightWeatherTypeMap,
+  UnitSystem } from 'src/app/services/weatherdata.service';
 
 @Component({
   selector: 'app-live-weather',
@@ -17,6 +19,7 @@ export class LiveWeatherComponent implements OnDestroy {
   temperature: string | undefined;
   wind: number | undefined;
   precipitation: number | undefined;
+  weatherBackground: string | undefined;
   // Keep track of metric or imperial units to display
   unitSystem: UnitSystem;
 
@@ -56,13 +59,12 @@ export class LiveWeatherComponent implements OnDestroy {
       this.liveWeatherData!.current.wind_kph : this.liveWeatherData!.current.wind_mph;
     this.precipitation = this.unitSystem === UnitSystem.Metric ?
       this.liveWeatherData!.current.precip_mm : this.liveWeatherData!.current.precip_in;
+    const weatherCode: string = this.liveWeatherData!.current.condition.code.toString();
+    if (this.liveWeatherData!.current.is_day === 1) {
+      this.weatherBackground = dayWeatherTypeMap[weatherCode];
+    } else {
+      this.weatherBackground = nightWeatherTypeMap[weatherCode];
+      console.log(this.weatherBackground);
+    }
   }
-}
-
-// eslint-disable-next-line no-unused-vars
-enum UnitSystem {
-  // eslint-disable-next-line no-unused-vars
-  Metric = 'metric',
-  // eslint-disable-next-line no-unused-vars
-  Imperial = 'imperial',
 }
