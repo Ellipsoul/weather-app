@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 module.exports = {
   mode: 'jit',
   important: true, // Might be necessary to overwrite material design defaults
@@ -19,6 +20,9 @@ module.exports = {
       stats: ['Roboto_Slab', 'serif'],
       temperature: ['Angkor', 'serif'],
       weatherdescription: ['Armata', 'sans-serif'],
+    },
+    backgroundImage: {
+      test: "url('./assets/weather_images/test.png')",
     },
     extend: {
       spacing: {

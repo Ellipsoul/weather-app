@@ -16,6 +16,7 @@ export class LiveWeatherComponent implements OnDestroy {
   locationString: string | undefined;
   temperature: string | undefined;
   wind: number | undefined;
+  precipitation: number | undefined;
   // Keep track of metric or imperial units to display
   unitSystem: UnitSystem;
 
@@ -53,6 +54,8 @@ export class LiveWeatherComponent implements OnDestroy {
       `${this.liveWeatherData!.current.temp_c} °C` : `${this.liveWeatherData!.current.temp_f} °F`;
     this.wind = this.unitSystem === UnitSystem.Metric ?
       this.liveWeatherData!.current.wind_kph : this.liveWeatherData!.current.wind_mph;
+    this.precipitation = this.unitSystem === UnitSystem.Metric ?
+      this.liveWeatherData!.current.precip_mm : this.liveWeatherData!.current.precip_in;
   }
 }
 

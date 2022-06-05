@@ -1,8 +1,8 @@
 <!-- Weather data has been loaded -->
 <div
   *ngIf="liveWeatherData"
-  ngClass="flex flex-col grow h-96 w-full overflow-y-scroll
-  p-2 gap-y-2 md:gap-y-4 border border-green-200"
+  ngClass="flex flex-col grow h-96 w-full overflow-y-auto
+  p-2 gap-y-4 md:gap-y-8 rounded-xl bg-test"
 >
   <!-- Header with location, time and unit system toggle -->
   <header
@@ -27,13 +27,12 @@
   </header>
   <!-- Main component, divided into 2 sides of information -->
   <main
-    ngClass="flex flex-row gap-x-3 gap-y-3 justify-evenly items-center flex-wrap
-    border border-zinc-400"
+    ngClass="flex flex-row gap-x-3 gap-y-3 justify-evenly items-center flex-wrap"
   >
     <!-- Left side containing temperature and description -->
     <div
-      ngClass="flex flex-col grow justify-evenly items-center basis-0 h-64  min-w-[300px]
-        border border-yellow-600"
+      ngClass="
+      flex flex-col grow justify-evenly items-center basis-0 h-64  min-w-[300px]"
     >
       <div ngClass="font-weatherdescription text-4xl">
         {{ liveWeatherData.current.condition.text }}
@@ -42,31 +41,46 @@
     </div>
     <!-- Right side with wind, direction, precipitation and humidity -->
     <div
-      ngClass="flex flex-col grow justify-evenly items-center basis-0 h-64 min-w-[300px] px-4
-        border border-yellow-600"
+      ngClass="flex flex-col grow justify-between items-center basis-0 h-64 min-w-[300px] px-4"
     >
+      <!-- Wind -->
       <div id="weather-kv-container">
         <div id="weather-key">
           {{ unitSystem === 'metric' ? 'Wind (kph):' : 'Wind (mph)' }}
         </div>
         <div id="weather-value">{{ wind }}</div>
       </div>
+      <!-- Wind Direction -->
+      <div id="weather-kv-container">
+        <div id="weather-key">Wind Direction (°)</div>
+        <div id="weather-value">{{ liveWeatherData.current.wind_degree }}</div>
+      </div>
+      <!-- Precipitation -->
+      <div id="weather-kv-container">
+        <div id="weather-key">
+          {{
+            unitSystem === 'metric'
+              ? 'Precipitation (mm):'
+              : 'Precipitation (in)'
+          }}
+        </div>
+        <div id="weather-value">{{ precipitation }}</div>
+      </div>
+      <!-- Humidity -->
+      <div id="weather-kv-container">
+        <div id="weather-key">Humidity</div>
+        <div id="weather-value">{{ liveWeatherData.current.humidity }}</div>
+      </div>
     </div>
   </main>
-  <div ngClass="">{{ liveWeatherData | json }}</div>
-  <div>
-    {{
-      'stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff stuff'
-    }}
-  </div>
 </div>
 
 <!-- Data not loaded yet, prompt user to enter a query -->
 <div
   *ngIf="!liveWeatherData"
-  ngClass="flex flex-col grow h-full w-full overflow-y-scroll p-2
+  ngClass="flex flex-col grow h-full w-full overflow-y-auto p-2
   justify-center items-center font-weatherheader text-center break-words
-  text-3xl sm:text-4xl md:text-5xl border border-green-200"
+  text-3xl sm:text-4xl md:text-5xl"
 >
   ⬆ Make a Query Above ⬆ 😇
 </div>
