@@ -72,3 +72,8 @@
 .auto-margin-left {
   padding-left: 22.5%;
 }
+
+/* Removing buggy focus indicator */
+::ng-deep .mat-ripple.mat-slide-toggle-ripple.mat-focus-indicator {
+  display: none !important;
+}
