@@ -1,6 +1,6 @@
 {
   "name": "weather-app",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -27,6 +27,7 @@
     "@angular/service-worker": "~13.3.0",
     "axios": "^0.27.2",
     "axios-observable": "^1.5.0",
+    "moment": "^2.29.3",
     "ngx-device-detector": "^3.0.0",
     "ngx-toastr": "^14.3.0",
     "rxjs": "~7.5.0",

@@ -3,11 +3,13 @@ import { Subscription } from 'rxjs';
 import { ForecastDayObject, WeatherForecastResponse } from 'src/app/services/weatherapi.service';
 import { dayWeatherTypeMap, nightWeatherTypeMap, UnitSystem,
   WeatherdataService } from 'src/app/services/weatherdata.service';
+import { DateTimeFormatPipe } from 'src/app/pipes/datetimeformat.pipe';
 
 @Component({
   selector: 'app-forecast-weather',
   templateUrl: './forecast-weather.component.html',
   styleUrls: ['./forecast-weather.component.css'],
+  providers: [DateTimeFormatPipe],
 })
 export class ForecastWeatherComponent implements OnDestroy {
   // Forecast Weather data retrieved from service
@@ -15,6 +17,7 @@ export class ForecastWeatherComponent implements OnDestroy {
   forecastWeatherDataSubscription: Subscription;
   // Useful variables extracted from forecastWeatherData
   // temperature: string | undefined;
+  dateIso: string | undefined;
   locationString: string | undefined;
   weatherBackgrounds: string[] | undefined;
   // Keep track of metric or imperial units to display
@@ -47,6 +50,10 @@ export class ForecastWeatherComponent implements OnDestroy {
   }
 
   private updateUsefulVariables(): void {
+    // Manually adding a leading 0 for poorly formatted date
+    const time: string = this.forecastWeatherData!.location.localtime;
+    this.dateIso = time[time.length-5] !== ' ' ? time :
+      time.slice(0, time.length-4) + '0' + time.slice(time.length-4);
     this.locationString =
       `${this.forecastWeatherData!.location.name}, ${this.forecastWeatherData!.location.country}`;
     const weatherCodes: string[] = this.forecastWeatherData!.forecast.forecastday.map(

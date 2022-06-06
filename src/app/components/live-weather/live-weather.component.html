@@ -12,7 +12,9 @@
     flex flex-col md:flex-row justify-evenly items-center gap-x-8 gap-y-2 pt-3
     font-slogan text-xl md:text-2xl lg:text-3xl text-center flex-wrap"
   >
-    <span>{{ liveWeatherData.location.localtime | date: 'HH:mm' }}</span>
+    <span>
+      {{ dateIso | dateTimeFormat: 'HH:mm' }}
+    </span>
     <span>{{ locationString }}</span>
     <mat-button-toggle-group
       (valueChange)="toggleUnitSystem($event)"
@@ -36,7 +38,7 @@
       ngClass="
       flex flex-col grow justify-evenly items-center basis-0 h-64  min-w-[300px]"
     >
-      <div ngClass="font-weatherdescription text-4xl">
+      <div ngClass="font-weatherdescription text-4xl text-center w-full">
         {{ liveWeatherData.current.condition.text }}
       </div>
       <div ngClass="font-temperature text-5xl">{{ temperature }}</div>
@@ -48,7 +50,7 @@
       <!-- Wind -->
       <div id="weather-kv-container">
         <div id="weather-key">
-          {{ unitSystem === 'metric' ? 'Wind (kph):' : 'Wind (mph)' }}
+          {{ unitSystem === 'metric' ? 'Wind:' : 'Wind:' }}
         </div>
         <div id="weather-value">{{ wind }}</div>
       </div>
@@ -59,18 +61,12 @@
       </div>
       <!-- Precipitation -->
       <div id="weather-kv-container">
-        <div id="weather-key">
-          {{
-            unitSystem === 'metric'
-              ? 'Precipitation (mm):'
-              : 'Precipitation (in)'
-          }}
-        </div>
+        <div id="weather-key">Precipiation:</div>
         <div id="weather-value">{{ precipitation }}</div>
       </div>
       <!-- Humidity -->
       <div id="weather-kv-container">
-        <div id="weather-key">Humidity</div>
+        <div id="weather-key">Humidity:</div>
         <div id="weather-value">{{ liveWeatherData.current.humidity }}%</div>
       </div>
     </div>

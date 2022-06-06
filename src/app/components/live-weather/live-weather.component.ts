@@ -4,11 +4,13 @@ import { WeatherLiveResponse } from 'src/app/services/weatherapi.service';
 import { WeatherdataService } from 'src/app/services/weatherdata.service';
 import { dayWeatherTypeMap, nightWeatherTypeMap,
   UnitSystem } from 'src/app/services/weatherdata.service';
+import { DateTimeFormatPipe } from 'src/app/pipes/datetimeformat.pipe';
 
 @Component({
   selector: 'app-live-weather',
   templateUrl: './live-weather.component.html',
   styleUrls: ['./live-weather.component.css'],
+  providers: [DateTimeFormatPipe],
 })
 export class LiveWeatherComponent implements OnDestroy {
   // Live Weather data retrieved from service
@@ -17,10 +19,11 @@ export class LiveWeatherComponent implements OnDestroy {
   // Useful variables extracted from liveWeatherData
   locationString: string | undefined;
   temperature: string | undefined;
-  wind: number | undefined;
+  wind: string | undefined;
   windDirection : string | undefined;
-  precipitation: number | undefined;
+  precipitation: string | undefined;
   weatherBackground: string | undefined;
+  dateIso: string | undefined;
   // Keep track of metric or imperial units to display
   unitSystem: UnitSystem;
 
@@ -53,12 +56,17 @@ export class LiveWeatherComponent implements OnDestroy {
 
   // Update the useful variable strings
   private updateUsefulVariables(): void {
+    // Manually adding a leading 0 for poorly formatted date
+    const time: string = this.liveWeatherData!.location.localtime;
+    this.dateIso = time[time.length-5] !== ' ' ? this.liveWeatherData!.location.localtime :
+      time.slice(0, time.length-4) + '0' + time.slice(time.length-4);
     this.locationString =
       `${this.liveWeatherData!.location.name}, ${this.liveWeatherData!.location.country}`;
     this.temperature = this.unitSystem === UnitSystem.Metric ?
       `${this.liveWeatherData!.current.temp_c} °C` : `${this.liveWeatherData!.current.temp_f} °F`;
     this.wind = this.unitSystem === UnitSystem.Metric ?
-      this.liveWeatherData!.current.wind_kph : this.liveWeatherData!.current.wind_mph;
+      `${this.liveWeatherData!.current.wind_kph} kph` :
+      `${this.liveWeatherData!.current.wind_mph} mph`;
     // Show a wind direction symbol
     let windDirectionSymbol: string;
     const wd: number = this.liveWeatherData!.current.wind_degree;
@@ -93,7 +101,8 @@ export class LiveWeatherComponent implements OnDestroy {
     }
     this.windDirection = `${windDirectionSymbol} ${this.liveWeatherData!.current.wind_degree}°`;
     this.precipitation = this.unitSystem === UnitSystem.Metric ?
-      this.liveWeatherData!.current.precip_mm : this.liveWeatherData!.current.precip_in;
+      `${this.liveWeatherData!.current.precip_mm} mm` :
+      `${this.liveWeatherData!.current.precip_in} in`;
     const weatherCode: string = this.liveWeatherData!.current.condition.code.toString();
     if (this.liveWeatherData!.current.is_day === 1) {
       this.weatherBackground = dayWeatherTypeMap[weatherCode];
