@@ -21,6 +21,4 @@ I haven't had a chance to work on a frontend UI for the last few months at my fu
 - [Progressive Web App (PWA)](https://web.dev/progressive-web-apps/)
 - [Axios](https://axios-http.com/)
 
-Weather data powered by:
-
-<a href="https://www.weatherapi.com/" title="Free Weather API"><img src='//cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com" border="0"></a>
+Weather data powered by [weatherapi.com](https://www.weatherapi.com/)
