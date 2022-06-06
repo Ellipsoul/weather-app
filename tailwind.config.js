@@ -42,6 +42,7 @@ module.exports = {
         17: '4.25rem',
         18: '4.5rem',
         22: '5.5rem',
+        108: '27rem',
       },
       screens: {
         mobile: '425px',

@@ -6,4 +6,16 @@
   :host {
     @apply h-full w-full grow;
   }
+
+  #weather-kv-container {
+    @apply w-full flex flex-row justify-evenly items-center gap-x-5;
+  }
+
+  #weather-key {
+    @apply font-title text-xl md:text-2xl leading-tight;
+  }
+
+  #weather-value {
+    @apply font-weatherheader text-xl lg:text-2xl;
+  }
 }

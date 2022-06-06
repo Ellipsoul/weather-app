@@ -1,7 +1,7 @@
 <!-- Weather data has been loaded -->
 <div
   *ngIf="forecastWeatherData"
-  ngClass="flex flex-col grow h-96 w-full overflow-y-auto p-2 gap-y-4 md:gap-y-8 rounded-xl bg-cover bg-no-repeat"
+  ngClass="flex flex-col grow h-108 w-full overflow-y-auto p-2 gap-y-4 md:gap-y-8 rounded-xl bg-cover bg-no-repeat"
 >
   <!-- Header with location, time and unit system toggle -->
   <header
@@ -28,17 +28,44 @@
   </header>
   <!-- Main component, mapped to 3 different forecast day objects -->
   <main
-    ngClass="flex flex-col md:flex-row gap-x-3 gap-y-3 justify-evenly items-center flex-wrap
-      border border-purple-300"
-    *ngFor="let forecastInfo of forecastInfos"
+    ngClass="flex flex-col lg:flex-row gap-x-3 gap-y-3 justify-between items-stretch md:items-center w-full"
   >
-    <div>{{ forecastInfo.avgTemp }}</div>
-    <div>{{ forecastInfo.background }}</div>
-    <div>{{ forecastInfo.minTemp }}</div>
-    <div>{{ forecastInfo.maxTemp }}</div>
-    <div>{{ forecastInfo.condition }}</div>
-    <div>{{ forecastInfo.code }}</div>
-    <div>{{ forecastInfo.dateIso | dateTimeFormat: 'DD MMM' }}</div>
+    <div *ngFor="let forecastInfo of forecastInfos" ngClass="w-full">
+      <div
+        [ngClass]="[
+          'h-auto lg:h-64 w-full lg:w-auto flex flex-col justify-between items-center',
+          'rounded-xl bg-cover bg-no-repeat border dark:border-white px-6 lg:px-3 py-3 gap-y-3',
+          forecastInfo.background
+        ]"
+      >
+        <!-- Header area with date and weather description -->
+        <div ngClass="text-center w-full flex flex-col gap-y-1">
+          <div ngClass="w-full text-2xl lg:text-3xl font-title">
+            {{ forecastInfo.dateIso | dateTimeFormat: 'D MMM' }}
+          </div>
+          <div ngClass="w-full text-2xl lg:text-3xl font-slogan break-words">
+            {{ forecastInfo.condition }}
+          </div>
+        </div>
+        <!-- Weather stats area -->
+        <div
+          ngClass="grow w-full flex flex-col items-center justify-between text-center gap-y-1"
+        >
+          <div id="weather-kv-container">
+            <span id="weather-key">Min</span>
+            <span id="weather-value">{{ forecastInfo.minTemp }}</span>
+          </div>
+          <div id="weather-kv-container">
+            <span id="weather-key">Avg</span>
+            <span id="weather-value">{{ forecastInfo.avgTemp }}</span>
+          </div>
+          <div id="weather-kv-container">
+            <span id="weather-key">Max</span>
+            <span id="weather-value">{{ forecastInfo.maxTemp }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
 
