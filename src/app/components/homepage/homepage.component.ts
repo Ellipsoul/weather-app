@@ -263,6 +263,8 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.getForecastWeather(pastQuery.location);
     }
+    // Close the drawer once a query is made for mobile devices
+    if (this.deviceService.isMobile()) this.drawer?.close();
   }
 
   // Call past queries service to delete all queries
