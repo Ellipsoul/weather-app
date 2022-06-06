@@ -40,7 +40,9 @@ export class ProfileComponent implements OnInit {
       this.ngZone.run(() => {
         this.user = user;
         onSnapshot(this.firestoreService.getUserDocRef(user)!, (doc) => {
-          this.profileInfo = doc.data() as ProfileInfo;
+          this.ngZone.run(() => {
+            this.profileInfo = doc.data() as ProfileInfo;
+          });
         });
       });
     });
