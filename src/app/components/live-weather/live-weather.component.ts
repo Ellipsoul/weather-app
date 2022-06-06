@@ -43,9 +43,6 @@ export class LiveWeatherComponent implements OnDestroy {
     this.unitSystem = localStorage.getItem('unitSystem') as UnitSystem;
   }
 
-  ngOnDestroy(): void {
-    this.liveWeatherDataSubscription.unsubscribe();
-  }
 
   // Switch between metric and imperial units
   toggleUnitSystem($event: string): void {
@@ -60,7 +57,7 @@ export class LiveWeatherComponent implements OnDestroy {
     const date: string = this.liveWeatherData!.location.localtime;
     this.dateIso = parseToIsoFormat(date);
     this.locationString =
-      `${this.liveWeatherData!.location.name}, ${this.liveWeatherData!.location.country}`;
+    `${this.liveWeatherData!.location.name}, ${this.liveWeatherData!.location.country}`;
     this.temperature = this.unitSystem === UnitSystem.Metric ?
       `${this.liveWeatherData!.current.temp_c} °C` : `${this.liveWeatherData!.current.temp_f} °F`;
     this.wind = this.unitSystem === UnitSystem.Metric ?
@@ -100,13 +97,17 @@ export class LiveWeatherComponent implements OnDestroy {
     }
     this.windDirection = `${windDirectionSymbol} ${this.liveWeatherData!.current.wind_degree}°`;
     this.precipitation = this.unitSystem === UnitSystem.Metric ?
-      `${this.liveWeatherData!.current.precip_mm} mm` :
-      `${this.liveWeatherData!.current.precip_in} in`;
+        `${this.liveWeatherData!.current.precip_mm} mm` :
+        `${this.liveWeatherData!.current.precip_in} in`;
     const weatherCode: string = this.liveWeatherData!.current.condition.code.toString();
     if (this.liveWeatherData!.current.is_day === 1) {
       this.weatherBackground = dayWeatherTypeMap[weatherCode];
     } else {
       this.weatherBackground = nightWeatherTypeMap[weatherCode];
     }
+  }
+
+  ngOnDestroy(): void {
+    this.liveWeatherDataSubscription.unsubscribe();
   }
 }

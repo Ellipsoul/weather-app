@@ -34,7 +34,7 @@
       <div
         [ngClass]="[
           'h-auto lg:h-64 w-full lg:w-auto flex flex-col justify-between items-center',
-          'rounded-xl bg-cover bg-no-repeat border dark:border-white px-6 lg:px-3 py-3 gap-y-3',
+          'rounded-xl bg-cover bg-no-repeat border border-transparent dark:border-white px-6 lg:px-3 py-3 gap-y-3',
           forecastInfo.background
         ]"
       >
@@ -43,7 +43,7 @@
           <div ngClass="w-full text-2xl lg:text-3xl font-title">
             {{ forecastInfo.dateIso | dateTimeFormat: 'D MMM' }}
           </div>
-          <div ngClass="w-full text-2xl lg:text-3xl font-slogan break-words">
+          <div ngClass="w-full text-2xl font-slogan break-words">
             {{ forecastInfo.condition }}
           </div>
         </div>

@@ -7,6 +7,7 @@
     @apply h-full w-full grow;
   }
 
+  /* Reusable CSS for the weather containers, keys and values */
   #weather-kv-container {
     @apply w-full flex flex-row justify-evenly items-center gap-x-5;
   }

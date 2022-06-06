@@ -20,7 +20,6 @@ export class ForecastWeatherComponent implements OnDestroy {
   dateIso: string | undefined;
   forecastDatesIso: string[] | undefined;
   locationString: string | undefined;
-  weatherBackgrounds: string[] | undefined;
   forecastInfos: ForecastInfo[] | undefined;
   // Keep track of metric or imperial units to display
   unitSystem: UnitSystem;
@@ -47,17 +46,13 @@ export class ForecastWeatherComponent implements OnDestroy {
     this.updateUsefulVariables();
   }
 
-  ngOnDestroy(): void {
-    this.forecastWeatherDataSubscription.unsubscribe();
-  }
-
   private updateUsefulVariables(): void {
     // Manually adding a leading 0 for poorly formatted date
     const date: string = this.forecastWeatherData!.location.localtime;
     this.dateIso = parseToIsoFormat(date);
-    this.forecastDatesIso = this.forecastWeatherData!.forecast.forecastday.map(
-        (forecastDay: ForecastDayObject) => parseToIsoFormat(forecastDay.date),
-    );
+    this.locationString =
+    `${this.forecastWeatherData!.location.name}, ${this.forecastWeatherData!.location.country}`;
+    // Aggregate the relevant information into a convenient parsed object
     this.forecastInfos = this.forecastWeatherData!.forecast.forecastday.map(
         (forecastDay: ForecastDayObject) => {
           return {
@@ -65,22 +60,19 @@ export class ForecastWeatherComponent implements OnDestroy {
             code: forecastDay.day.condition.code,
             condition: forecastDay.day.condition.text,
             minTemp: this.unitSystem === UnitSystem.Metric ?
-              `${forecastDay.day.mintemp_c} °C` : `${forecastDay.day.mintemp_f} °F`,
+            `${forecastDay.day.mintemp_c} °C` : `${forecastDay.day.mintemp_f} °F`,
             avgTemp: this.unitSystem === UnitSystem.Metric ?
-              `${forecastDay.day.avgtemp_c} °C` : `${forecastDay.day.avgtemp_f} °F`,
+            `${forecastDay.day.avgtemp_c} °C` : `${forecastDay.day.avgtemp_f} °F`,
             maxTemp: this.unitSystem === UnitSystem.Metric ?
             `${forecastDay.day.maxtemp_c} °C` : `${forecastDay.day.maxtemp_f} °F`,
             background: this.forecastWeatherData?.current.is_day === 1 ?
-              dayWeatherTypeMap[forecastDay.day.condition.code] :
-              nightWeatherTypeMap[forecastDay.day.condition.code],
+            dayWeatherTypeMap[forecastDay.day.condition.code] :
+            nightWeatherTypeMap[forecastDay.day.condition.code],
           };
         });
-    this.locationString =
-      `${this.forecastWeatherData!.location.name}, ${this.forecastWeatherData!.location.country}`;
-    const weatherCodes: string[] = this.forecastWeatherData!.forecast.forecastday.map(
-        (forecastDay: ForecastDayObject) => forecastDay.day.condition.code.toString());
-    this.weatherBackgrounds = this.forecastWeatherData?.current.is_day === 1 ?
-      weatherCodes.map((weatherCode: string) => dayWeatherTypeMap[weatherCode]) :
-      weatherCodes.map((weatherCode: string) => nightWeatherTypeMap[weatherCode]);
+  }
+
+  ngOnDestroy(): void {
+    this.forecastWeatherDataSubscription.unsubscribe();
   }
 }

@@ -5,6 +5,7 @@ import { AuthGuard } from '@angular/fire/auth-guard';
 import { ProfileComponent } from '../components/profile/profile.component';
 import { HomepageComponent } from '../components/homepage/homepage.component';
 
+// Redirect all non-matching routes to the app page
 const routes: Routes = [
   { path: 'app', component: HomepageComponent, data: { title: 'SkyStory - App' } },
   {
