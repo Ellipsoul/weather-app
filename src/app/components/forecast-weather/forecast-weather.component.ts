@@ -1,8 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ForecastDayObject, WeatherForecastResponse } from 'src/app/services/weatherapi.service';
+import { ForecastDayObject, WeatherForecastResponse,
+  ForecastInfo } from 'src/app/services/weatherapi.service';
 import { dayWeatherTypeMap, nightWeatherTypeMap, UnitSystem,
-  WeatherdataService } from 'src/app/services/weatherdata.service';
+  WeatherdataService, parseToIsoFormat } from 'src/app/services/weatherdata.service';
 import { DateTimeFormatPipe } from 'src/app/pipes/datetimeformat.pipe';
 
 @Component({
@@ -16,10 +17,11 @@ export class ForecastWeatherComponent implements OnDestroy {
   forecastWeatherData: WeatherForecastResponse | undefined;
   forecastWeatherDataSubscription: Subscription;
   // Useful variables extracted from forecastWeatherData
-  // temperature: string | undefined;
   dateIso: string | undefined;
+  forecastDatesIso: string[] | undefined;
   locationString: string | undefined;
   weatherBackgrounds: string[] | undefined;
+  forecastInfos: ForecastInfo[] | undefined;
   // Keep track of metric or imperial units to display
   unitSystem: UnitSystem;
 
@@ -51,9 +53,28 @@ export class ForecastWeatherComponent implements OnDestroy {
 
   private updateUsefulVariables(): void {
     // Manually adding a leading 0 for poorly formatted date
-    const time: string = this.forecastWeatherData!.location.localtime;
-    this.dateIso = time[time.length-5] !== ' ' ? time :
-      time.slice(0, time.length-4) + '0' + time.slice(time.length-4);
+    const date: string = this.forecastWeatherData!.location.localtime;
+    this.dateIso = parseToIsoFormat(date);
+    this.forecastDatesIso = this.forecastWeatherData!.forecast.forecastday.map(
+        (forecastDay: ForecastDayObject) => parseToIsoFormat(forecastDay.date),
+    );
+    this.forecastInfos = this.forecastWeatherData!.forecast.forecastday.map(
+        (forecastDay: ForecastDayObject) => {
+          return {
+            dateIso: parseToIsoFormat(forecastDay.date),
+            code: forecastDay.day.condition.code,
+            condition: forecastDay.day.condition.text,
+            minTemp: this.unitSystem === UnitSystem.Metric ?
+              `${forecastDay.day.mintemp_c} °C` : `${forecastDay.day.mintemp_f} °F`,
+            avgTemp: this.unitSystem === UnitSystem.Metric ?
+              `${forecastDay.day.avgtemp_c} °C` : `${forecastDay.day.avgtemp_f} °F`,
+            maxTemp: this.unitSystem === UnitSystem.Metric ?
+            `${forecastDay.day.maxtemp_c} °C` : `${forecastDay.day.maxtemp_f} °F`,
+            background: this.forecastWeatherData?.current.is_day === 1 ?
+              dayWeatherTypeMap[forecastDay.day.condition.code] :
+              nightWeatherTypeMap[forecastDay.day.condition.code],
+          };
+        });
     this.locationString =
       `${this.forecastWeatherData!.location.name}, ${this.forecastWeatherData!.location.country}`;
     const weatherCodes: string[] = this.forecastWeatherData!.forecast.forecastday.map(

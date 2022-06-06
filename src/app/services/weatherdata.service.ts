@@ -40,6 +40,12 @@ export enum UnitSystem {
   Imperial = 'imperial',
 }
 
+// Converting the poorly fomratted date into ISO format
+export function parseToIsoFormat(date: string) {
+  return (date[date.length-5] !== ' ' ? date :
+    date.slice(0, date.length-4) + '0' + date.slice(date.length-4));
+}
+
 // Mapping the weather code to the correct weather type
 export const dayWeatherTypeMap: Record<string, string> = {
   '1000': 'bg-sunnyDay',

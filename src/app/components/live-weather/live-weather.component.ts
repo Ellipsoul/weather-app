@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { WeatherLiveResponse } from 'src/app/services/weatherapi.service';
 import { WeatherdataService } from 'src/app/services/weatherdata.service';
 import { dayWeatherTypeMap, nightWeatherTypeMap,
-  UnitSystem } from 'src/app/services/weatherdata.service';
+  UnitSystem, parseToIsoFormat } from 'src/app/services/weatherdata.service';
 import { DateTimeFormatPipe } from 'src/app/pipes/datetimeformat.pipe';
 
 @Component({
@@ -57,9 +57,8 @@ export class LiveWeatherComponent implements OnDestroy {
   // Update the useful variable strings
   private updateUsefulVariables(): void {
     // Manually adding a leading 0 for poorly formatted date
-    const time: string = this.liveWeatherData!.location.localtime;
-    this.dateIso = time[time.length-5] !== ' ' ? this.liveWeatherData!.location.localtime :
-      time.slice(0, time.length-4) + '0' + time.slice(time.length-4);
+    const date: string = this.liveWeatherData!.location.localtime;
+    this.dateIso = parseToIsoFormat(date);
     this.locationString =
       `${this.liveWeatherData!.location.name}, ${this.liveWeatherData!.location.country}`;
     this.temperature = this.unitSystem === UnitSystem.Metric ?

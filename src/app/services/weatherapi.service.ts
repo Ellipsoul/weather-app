@@ -123,3 +123,14 @@ export enum WeatherType {
   // eslint-disable-next-line no-unused-vars
   Forecast = 'Forecast',
 }
+
+// More robust interface for useful forecast weather API info
+export interface ForecastInfo {
+  dateIso: string,
+  code: number,
+  condition: string,
+  minTemp: string,
+  avgTemp: string,
+  maxTemp: string,
+  background: string,
+}

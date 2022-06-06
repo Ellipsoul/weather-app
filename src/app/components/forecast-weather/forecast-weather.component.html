@@ -26,11 +26,20 @@
       <mat-button-toggle value="imperial">Imperial</mat-button-toggle>
     </mat-button-toggle-group>
   </header>
-  <!-- Main component, divided into 2 sides of information -->
+  <!-- Main component, mapped to 3 different forecast day objects -->
   <main
-    ngClass="flex flex-row gap-x-3 gap-y-3 justify-evenly items-center flex-wrap
+    ngClass="flex flex-col md:flex-row gap-x-3 gap-y-3 justify-evenly items-center flex-wrap
       border border-purple-300"
-  ></main>
+    *ngFor="let forecastInfo of forecastInfos"
+  >
+    <div>{{ forecastInfo.avgTemp }}</div>
+    <div>{{ forecastInfo.background }}</div>
+    <div>{{ forecastInfo.minTemp }}</div>
+    <div>{{ forecastInfo.maxTemp }}</div>
+    <div>{{ forecastInfo.condition }}</div>
+    <div>{{ forecastInfo.code }}</div>
+    <div>{{ forecastInfo.dateIso | dateTimeFormat: 'DD MMM' }}</div>
+  </main>
 </div>
 
 <!-- Data not loaded yet, prompt user to enter a query -->
