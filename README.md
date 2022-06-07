@@ -1,10 +1,10 @@
 # SkyStory
 
-> An elegant responsive PWA and provides free and instand live and forecast weather information.
+An elegant responsive PWA and provides free and instant live and forecast weather information.
 
-I haven't had a chance to work on a frontend UI for the last few months at my full time job, so I just decided to do one myself.
+> I haven't had a chance to work on a frontend UI for the last few months at my full time job, so I just decided to do one myself.
 
-> Deployed here: [https://skystory.aronteh.com/](https://skystory.aronteh.com/)
+Deployed here: [https://skystory.aronteh.com/](https://skystory.aronteh.com/)
 
 
 ### Technologies Used and Learned
