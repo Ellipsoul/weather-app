@@ -176,6 +176,13 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Retrieve weather from weather api
   getWeather(): void {
+    // Form not valid
+    const input: string = this.weatherLocationInput.value;
+    if (input === null || input.length < 3) {
+      this.toaster.error('Please enter a longer query', 'Error!');
+      return;
+    }
+    // Retrieve weather based on selected weather type
     const weatherType: WeatherType =
     this.showForecastWeather ? WeatherType.Forecast : WeatherType.Live;
     // Live weather
