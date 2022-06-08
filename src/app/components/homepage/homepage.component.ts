@@ -58,6 +58,9 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   pastQueriesSubscription: Subscription | undefined;
   // Control state of the slide toggle
   @ViewChild('slideToggle') slideToggle: MatSlideToggle | undefined;
+  // Live and Forecast Weather data objects
+  liveWeatherData: WeatherLiveResponse | undefined;
+  forecastWeatherData: WeatherForecastResponse | undefined;
 
   constructor(
     private themeService: ThemeService,
@@ -95,6 +98,13 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
       if (!name || name.length < 3) {
         this.filteredLocationNames = undefined;
       }
+    });
+    // Subscribe to the live and forecast weather data
+    this.weatherdataService.forecastWeatherData.subscribe((data: WeatherForecastResponse) => {
+      this.forecastWeatherData = data;
+    });
+    this.weatherdataService.liveWeatherData.subscribe((data: WeatherLiveResponse) => {
+      this.liveWeatherData = data;
     });
   }
 
@@ -169,8 +179,18 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  // Change whether to show weather forecast or live weather
+  // Change whether to show weather forecast or live weather, and potentially fetch weather
   toggleWeatherView($event: any) {
+    // If user has existing query, fetch weather data for other view
+    if (this.showForecastWeather && this.liveWeatherData !== undefined) {
+      this.getForecastWeather(
+          `${this.liveWeatherData.location.name}, ${this.liveWeatherData.location.country}`);
+    }
+    if (!this.showForecastWeather && this.forecastWeatherData !== undefined) {
+      this.getLiveWeather(
+          `${this.forecastWeatherData.location.name}, \
+          ${this.forecastWeatherData.location.country}`);
+    }
     this.showForecastWeather = $event.checked;
   }
 
