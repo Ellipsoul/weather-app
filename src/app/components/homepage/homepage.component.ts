@@ -202,6 +202,8 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.toaster.error('Please enter a longer query', 'Error!');
       return;
     }
+    // Clear the filtered names after query submission
+    this.filteredLocationNames = [];
     // Retrieve weather based on selected weather type
     const weatherType: WeatherType =
     this.showForecastWeather ? WeatherType.Forecast : WeatherType.Live;
