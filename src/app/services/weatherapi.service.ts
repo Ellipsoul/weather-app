@@ -12,8 +12,10 @@ export class WeatherapiService {
     return Axios.get(
         'https://api.weatherapi.com/v1/search.json',
         {
-          headers: { key: 'bb3ea939b5fb4251bc0180930220905'},
-          params: { q: query },
+          params: {
+            key: 'bb3ea939b5fb4251bc0180930220905',
+            q: query,
+          },
         },
     );
   }
@@ -23,8 +25,11 @@ export class WeatherapiService {
     return Axios.get(
         'https://api.weatherapi.com/v1/current.json',
         {
-          headers: { key: 'bb3ea939b5fb4251bc0180930220905'},
-          params: { q: location, aqi: 'no' },
+          params: {
+            key: 'bb3ea939b5fb4251bc0180930220905',
+            q: location,
+            aqi: 'no',
+          },
         },
     );
   }
@@ -34,8 +39,13 @@ export class WeatherapiService {
     return Axios.get(
         'https://api.weatherapi.com/v1/forecast.json',
         {
-          headers: { key: 'bb3ea939b5fb4251bc0180930220905'},
-          params: { q: location, days: '7', aqi: 'no', alerts: 'no' },
+          params: {
+            key: 'bb3ea939b5fb4251bc0180930220905',
+            q: location,
+            days: '3',
+            aqi: 'no',
+            alerts: 'no',
+          },
         },
     );
   }
